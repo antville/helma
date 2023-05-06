@@ -1,0 +1,23 @@
+[Unit]
+Description = Helma Object Publisher
+After = syslog.target network.target
+StartLimitIntervalSec = 0
+
+[Service]
+Restart = always
+RestartSec = 1
+SuccessExitStatus = 143
+Type = simple
+WorkingDirectory = /opt/helma
+
+ExecStart = /usr/bin/java -server \
+  -Dfile.encoding=UTF-8 \
+  -Djava.awt.headless=true \
+  -Xms1024m -Xmx2048m \
+  -jar launcher.jar \
+  -w 8080 -x 8081
+
+ExecStop = /bin/kill -15 $MAINPID
+
+[Install]
+WantedBy = multi-user.target
