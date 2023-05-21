@@ -176,7 +176,7 @@ task processSource(type: Sync) {
 }
 
 task update {
-  def rsyncArgs = ['-a', '--info=progress2', '--exclude', 'backups']
+  def rsyncArgs = ['--archive', '--exclude', 'backups']
 
   def confirm = {
     ant.input(message: 'Update this installation?', validargs: 'y,n', addproperty: 'continue')
