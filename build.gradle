@@ -32,6 +32,16 @@ version = new Date().format("yyyyMMdd")
 tasks.build.dependsOn javadoc, 'jsdoc', 'generateLicenseReport'
 tasks.compileJava.dependsOn 'processSource'
 
+// Disable DocLint for now
+// See <https://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html>
+if (JavaVersion.current().isJava8Compatible()) {
+  allprojects {
+    tasks.withType(Javadoc) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
+}
+
 sourceSets {
   main {
     java {
