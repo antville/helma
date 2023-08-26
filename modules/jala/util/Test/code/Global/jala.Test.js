@@ -41,7 +41,7 @@ app.addRepository("modules/helma/Http.js");
 /**
  * Jala dependencies
  */
-app.addRepository(getProperty("jala.dir", "modules/jala") + 
+app.addRepository(getProperty("jala.dir", "modules/jala") +
                   "/code/Database.js");
 
 /**
@@ -573,11 +573,11 @@ jala.Test.prototype.executeTest = function(testFile) {
    } finally {
       // exit the js context created above
       cx.exit();
-      // FIXME (sim) don't polute global in the first place or 
+      // FIXME (sim) don't polute global in the first place or
       //             get a fresh global for each testrun
       global.testFunctionIdents.forEach(function(funcName) {
          // NOTE won't work on var-defined props
-         // delete global[funcName]] 
+         // delete global[funcName]]
          global[funcName] = "ignoreMe";
       }, this);
       global["setup"] = "ignoreMe";
@@ -861,7 +861,7 @@ jala.Test.prototype.assertEqualFile = function assertEqualFile(val, file) {
       // the last linefeed in a file too
       var str = value1.replace(/\r?\n$/g, "");
       equals = str === file.readAll();
-   }      
+   }
    if (!equals) {
       throw new jala.Test.TestException(comment,
                       "Expected " + jala.Test.valueToString(value1) +
@@ -1155,7 +1155,7 @@ jala.Test.HttpClient = function() {
    this.getClient = function() {
       return client;
    };
-   
+
    /**
     * Sets the cookie to use for subsequent requests using this client
     * @param {Array} arr The cookie object as received from helma.Http.getUrl
@@ -1336,7 +1336,7 @@ jala.Test.DatabaseMgr.prototype.startDatabase = function(dbSourceName, copyTable
             // collect the table names of all relational prototypes
             tables = [];
             var protos = app.getPrototypes();
-            for each (var proto in protos) {
+            for (let proto of protos) {
                var dbMap = proto.getDbMapping();
                if (dbMap.isRelational()) {
                   tables.push(dbMap.getTableName());
@@ -1401,7 +1401,7 @@ jala.Test.DatabaseMgr.prototype.stopAll = function() {
  */
 jala.Test.SmtpServer = function(port) {
    var server = null;
-   
+
    var oldSmtpServer = null;
 
    /**

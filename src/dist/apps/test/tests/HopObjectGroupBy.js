@@ -68,7 +68,7 @@ function testGroupByAddRemoveNoCommit() {
    // FIXME HELMABUG: country is still accessible at this point
    // similar to http://helma.org/bugs/show_bug.cgi?id=551
    assertNull(root.organisationsByCountry.get(org.country));
-   
+
    assertEqual(countryCount, root.organisationsByCountry.count());
 }
 
@@ -130,7 +130,7 @@ function testGroupTransient() {
    assertNotNull(country);
    assertEqual(country._prototype, "Country");
    assertEqual(country.groupname, org.country);
-   
+
    // These don't work as org uses the parent from type.properties
    // which is root.organisations. Not sure if this is a bug or not.
    // assertEqual(country, org._parent);
@@ -143,7 +143,7 @@ function testGroupTransient() {
 
 function cleanup() {
     var orgs = root.organisations.list();
-    for each (var org in orgs) {
+    for (let org of orgs) {
         org.remove();
     }
 }

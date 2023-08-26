@@ -518,7 +518,7 @@ jala.db.DataType = function(type, typeName, params) {
    this.getParams = function() {
       return params;
    };
-   
+
    /** @ignore */
    this.toString = function() {
       return "[DataType " +
@@ -597,7 +597,7 @@ jala.db.RamDatabase = function(name, username, password) {
    this.getUsername = function() {
       return username || "sa";
    };
-   
+
    /**
     * Returns the password of this database
     * @returns The password of this database
@@ -841,7 +841,7 @@ jala.db.RamDatabase.prototype.copyTables = function(database, tables) {
          tables = jala.db.metadata.getTableNames(dbMetadata);
       }
 
-      for each (var tableName in tables) {
+      for (let tableName of tables) {
          // drop the table if it exists
          if (this.tableExists(tableName)) {
             this.dropTable(tableName);
@@ -1011,7 +1011,7 @@ jala.db.FileDatabase = function(name, directory, username, password) {
    this.getUsername = function() {
       return username || "sa";
    };
-   
+
    /**
     * Returns the password of this database
     * @returns The password of this database

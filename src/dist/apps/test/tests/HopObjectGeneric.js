@@ -86,7 +86,7 @@ function testAdd() {
 
 function cleanup() {
     var persons = org.generic.list();
-    for each (var person in persons) {
+    for (let person of persons) {
         person.remove();
     }
     org.remove();
