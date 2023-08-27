@@ -67,7 +67,7 @@ dependencies {
   implementation 'javax.servlet:javax.servlet-api:4.0.1'
   implementation 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
   implementation 'org.eclipse.jetty:jetty-servlet:9.4.51.v20230217'
-  implementation 'org.eclipse.jetty:jetty-xml:9.4.27.v20200227'
+  implementation 'org.eclipse.jetty:jetty-xml:9.4.51.v20230217'
   implementation 'org.mozilla:rhino:1.7.13'
   implementation 'xerces:xercesImpl:2.12.2'
   implementation 'xmlrpc:xmlrpc:2.0.1'
@@ -80,7 +80,7 @@ def rhinoJar = configurations.library.files.find { jar ->
 startScripts {
   applicationName = 'helma'
   classpath = files('../launcher.jar')
-  mainClassName = 'helma.main.launcher.Main'
+  mainClass = 'helma.main.launcher.Main'
 
   defaultJvmOpts = [jettyLogLevel, suppressMacosDockIcon]
 
@@ -102,26 +102,28 @@ distributions {
   }
 }
 
-applicationDistribution.from(projectDir) {
-  include 'modules/**'
-  include 'LICENSE.md'
-  include 'README.md'
-  include 'start.*'
-}
+application {
+  applicationDistribution.from(projectDir) {
+    include 'modules/**'
+    include 'LICENSE.md'
+    include 'README.md'
+    include 'start.*'
+  }
 
-applicationDistribution.from(javadoc.destinationDir) {
-  include '**'
-  into 'docs/javadoc'
-}
+  applicationDistribution.from(javadoc.destinationDir) {
+    include '**'
+    into 'docs/javadoc'
+  }
 
-applicationDistribution.from("${project.buildDir}/docs/jsdoc") {
-  include '**'
-  into 'docs/jsdoc'
-}
+  applicationDistribution.from("${project.buildDir}/docs/jsdoc") {
+    include '**'
+    into 'docs/jsdoc'
+  }
 
-applicationDistribution.from("${project.buildDir}/reports/dependency-license") {
-  include '**'
-  into 'licenses'
+  applicationDistribution.from("${project.buildDir}/reports/dependency-license") {
+    include '**'
+    into 'licenses'
+  }
 }
 
 distTar {
@@ -234,7 +236,7 @@ task xgettext(type: JavaExec) {
   group 'i18n'
 
   classpath = files('launcher.jar')
-  main = 'helma.main.launcher.Commandline'
+  mainClass = 'helma.main.launcher.Commandline'
 
   // TODO: Decouple from Antville app
   args = [
@@ -251,7 +253,7 @@ task po2js(type: JavaExec) {
   group 'i18n'
 
   classpath = files(rhinoJar)
-  main = 'org.mozilla.javascript.tools.shell.Main'
+  mainClass = 'org.mozilla.javascript.tools.shell.Main'
 
   // TODO: Decouple from Antville app
   args = [
@@ -266,7 +268,7 @@ task rhinoShell(type: JavaExec) {
   group 'Application'
 
   classpath = files(rhinoJar)
-  main = 'org.mozilla.javascript.tools.shell.Main'
+  mainClass = 'org.mozilla.javascript.tools.shell.Main'
 
   standardInput = System.in
 }
@@ -278,6 +280,6 @@ task commandLine(type: JavaExec) {
   group 'Application'
 
   classpath = files('launcher.jar')
-  main = 'helma.main.launcher.Commandline'
+  mainClass = 'helma.main.launcher.Commandline'
   args '-h', projectDir, function
 }
