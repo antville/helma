@@ -1,5 +1,5 @@
 dependencies {
-	runtimeOnly 'dom4j:dom4j:1.6.1'
+	runtimeOnly 'dom4j:dom4j:20040902.021138'
 	runtimeOnly 'jaxen:jaxen:1.1-beta-8'
 	runtimeOnly 'net.sf.javamusictag:jid3lib:0.5.4'
 
