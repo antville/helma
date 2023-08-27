@@ -11,3 +11,7 @@ updates:
       interval: "daily"
     assignees:
       - "p3k"
+    groups:
+      jetty:
+        patterns:
+          - 'org.eclipse.jetty:*'
