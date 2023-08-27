@@ -330,7 +330,7 @@ MessageParser.prototype.parseSkinFile = function(file, encoding) {
   var processMacros = function(macros) {
     var re = gettext_macro.REGEX;
     var id, pluralId, name, args, param, key, msg;
-    for each (var macro in macros) {
+    for (let macro of macros) {
       id = pluralId = null;
       name = macro.getName();
       param = macro.getNamedParams();
@@ -374,7 +374,7 @@ MessageParser.prototype.parseSkinFile = function(file, encoding) {
   if (skin.hasMainskin()) {
     processMacros(skin.getMacros());
   }
-  for each (var name in skin.getSubskinNames()) {
+  for (let name of skin.getSubskinNames()) {
     var subskin = skin.getSubskin(name);
     processMacros(subskin.getMacros());
   }

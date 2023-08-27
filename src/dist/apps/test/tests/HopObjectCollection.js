@@ -149,7 +149,7 @@ function testOrder(org, pos) {
 
 function cleanup() {
     var persons = root.persons.list();
-    for each (var person in persons) {
+    for (let person of persons) {
         person.remove();
     }
     ikea.remove();
