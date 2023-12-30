@@ -69,6 +69,7 @@ dependencies {
   implementation 'org.eclipse.jetty:jetty-servlet:9.4.51.v20230217'
   implementation 'org.eclipse.jetty:jetty-xml:9.4.51.v20230217'
   implementation 'org.mozilla:rhino:1.7.13'
+  implementation 'org.sejda.imageio:webp-imageio:0.1.6'
   implementation 'xerces:xercesImpl:2.12.2'
   implementation 'xmlrpc:xmlrpc:2.0.1'
 }
