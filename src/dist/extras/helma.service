@@ -4,19 +4,21 @@ After = syslog.target network.target
 StartLimitIntervalSec = 0
 
 [Service]
+Type = simple
 Restart = always
 RestartSec = 1
 SuccessExitStatus = 143
-Type = simple
-WorkingDirectory = /opt/helma
+User = helma
+WorkingDirectory = /home/helma
 
 ExecStart = /usr/bin/java -server \
-  -Dfile.encoding=UTF-8 \
+  -Dfile.encoding=utf8 \
   -Djava.awt.headless=true \
   -Xms1024m -Xmx2048m \
   -jar launcher.jar \
   -w 8080 -x 8081
 
+ExecReload = touch apps.properties && touch server.properties
 ExecStop = /bin/kill -15 $MAINPID
 
 [Install]
