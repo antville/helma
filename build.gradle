@@ -225,11 +225,6 @@ task jsdoc(type: Exec) {
 
   executable 'npx'
   args = ['jsdoc', '-d', "$destination"].plus(sources)
-
-  // As of writing jsdoc throws the following error:
-  // Unable to parse /home/tobi/Projects/helma/current/modules/jala/code/Database.js: Unexpected token, expected "(" (844:10)
-  // Seems to be related to the `for each` syntax but did not find any further references.
-  ignoreExitValue true
 }
 
 task xgettext(type: JavaExec) {
