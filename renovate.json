@@ -1,13 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
   "extends": [
     "config:base",
     "npm:unpublishSafe",
-    ":disableRateLimiting",
     ":pinVersions",
     ":semanticCommitsDisabled"
   ],
+
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["urgent"],
+    "automerge": true
+  },
+
   "labels": ["dependencies"],
+
   "packageRules": [
     {
       "matchFiles": ["build.gradle"],
