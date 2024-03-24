@@ -23,7 +23,7 @@
     {
       "description": "Label Helma core packages",
       "matchFiles": ["build.gradle"],
-      "labels": ["core"]
+      "addLabels": ["core"]
     },
     {
       "description": "Label major version bumps",
