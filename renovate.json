@@ -2,19 +2,22 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
   "extends": [
-    "config:base",
+    "config:recommended",
+    "mergeConfidence:all-badges",
     "npm:unpublishSafe",
+    ":disableRateLimiting",
     ":pinVersions",
     ":semanticCommitsDisabled"
   ],
 
   "osvVulnerabilityAlerts": true,
+
   "vulnerabilityAlerts": {
-    "labels": ["urgent"],
+    "labels": ["security", "urgent"],
     "automerge": true
   },
 
-  "labels": ["dependencies"],
+  "labels": ["dependency"],
 
   "packageRules": [
     {
@@ -23,3 +26,4 @@
     }
   ]
 }
+
