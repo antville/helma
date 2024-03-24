@@ -21,8 +21,19 @@
 
   "packageRules": [
     {
+      "description": "Label Helma core packages",
       "matchFiles": ["build.gradle"],
       "labels": ["core"]
+    },
+    {
+      "description": "Label major version bumps",
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["major"]
+    },
+    {
+      "description": "Label packages required at runtime",
+      "matchDepTypes": ["dependencies"],
+      "addLabels": ["runtime"]
     }
   ]
 }
