@@ -34,6 +34,11 @@
       "description": "Label packages required at runtime",
       "matchDepTypes": ["dependencies"],
       "addLabels": ["runtime"]
+    },
+    {
+      "description": "Group Jetty packages",
+      "matchPackagePrefixes": ["org.eclipse.jetty"],
+      "groupName": "Jetty packages"
     }
   ]
 }
