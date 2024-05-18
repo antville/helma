@@ -180,11 +180,11 @@ task processSource(type: Sync) {
 }
 
 task update {
-  def rsyncArgs = ['--archive', '--exclude', 'backups']
+  def rsyncArgs = ['--archive', '--filter', '- backups']
 
   def confirm = {
-    ant.input(message: 'Update this installation?', validargs: 'y,n', addproperty: 'continue')
-    return ant.continue == 'y'
+    ant.input(message: 'Update this installation?', validargs: 'yes,no', addproperty: 'continue')
+    return ant.continue == 'yes'
   }
 
   onlyIf { confirm() }
@@ -195,20 +195,29 @@ task update {
     mkdir backupDir
 
     exec {
-      // Using rsync instead of a CopyTask because the latter chokes on multi-byte characters
+      // Create a backup with rsync instead of a CopyTask because the latter chokes on multi-byte characters
       // See https://github.com/gradle/gradle/issues/789
       executable 'rsync'
       args rsyncArgs
       args "$projectDir/", backupDir
     }
+
+    print "Created backup of ${projectDir} in ${backupDir}"
   }
 
   doLast {
     exec {
-      // Using rsync instead of installDist task because it does not overwrite the project directory
+      // Using rsync to selectively update the repo directory
       executable 'rsync'
+      args '--delete'
       args rsyncArgs
-      args '--exclude', 'bin'
+      args '--filter', '+ bin/***'
+      args '--filter', '+ docs/***'
+      args '--filter', '+ extras/***'
+      args '--filter', '+ launcher.jar'
+      args '--filter', '+ lib'
+      args '--filter', '+ *.jar'
+      args '--filter', '- *'
       args "${installDist.destinationDir}/", projectDir
     }
   }
