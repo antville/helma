@@ -5,6 +5,13 @@ dependencies {
 	runtimeOnly 'org.apache.lucene:lucene-core:2.2.0'
 }
 
+jar.enabled = false
+compileJava.enabled = false
+compileTestJava.enabled = false
+processResources.enabled = false
+processTestResources.enabled = false
+test.enabled = false
+
 task deps(type: Copy) {
 	from sourceSets.main.runtimeClasspath
 	into '.'

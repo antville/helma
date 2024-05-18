@@ -129,6 +129,7 @@ application {
 
 distTar {
   dependsOn ':generateLicenseReport', ':javadoc', ':jsdoc'
+
   compression = Compression.GZIP
 
   filesMatching(textFiles) {

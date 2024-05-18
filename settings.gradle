@@ -7,7 +7,12 @@ org.apache.tools.ant.DirectoryScanner.removeDefaultExclude('**/.git/**')
 org.apache.tools.ant.DirectoryScanner.removeDefaultExclude('**/.gitignore')
 
 include 'launcher'
-include 'modules:helma'
-include 'modules:jala'
-include 'modules:jala:util:HopKit'
-include 'modules:jala:util:Test'
+include 'modules'
+include 'jala'
+include 'hopKit'
+include 'test'
+
+project(':modules').projectDir = file('modules/helma')
+project(':jala').projectDir = file('modules/jala')
+project(':hopKit').projectDir = file('modules/jala/util/HopKit')
+project(':test').projectDir = file('modules/jala/util/Test')
