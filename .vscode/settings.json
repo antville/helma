@@ -4,5 +4,6 @@
 	},
 	"files.watcherExclude": {
 		"apps/": true
-	}
+	},
+	"java.configuration.updateBuildConfiguration": "automatic"
 }
