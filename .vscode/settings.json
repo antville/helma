@@ -1,7 +1,4 @@
 {
-	"files.exclude": {
-		"apps/": true
-	},
 	"files.watcherExclude": {
 		"apps/": true
 	},
