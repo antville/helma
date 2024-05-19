@@ -1,0 +1,50 @@
+name: Staging
+
+on:
+  workflow_dispatch
+
+env:
+  SSH_AUTH_SOCK: /tmp/ssh-agent.sock
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: staging
+      url: https://antville-test.click
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 21
+
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v3
+
+    - name: Build with Gradle
+      run: ./gradlew installDist
+
+    - name: Set up SSH agent
+      run: |
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+        mkdir -p ~/.ssh
+        echo '${{ vars.SSH_CONFIG }}' > ~/.ssh/config
+        echo '${{ vars.KNOWN_HOSTS }}' > ~/.ssh/known_hosts
+
+    - name: Publish to staging server
+      run: |
+        rsync build/install/helma/ antville.dev:/ \
+          --verbose --archive --delete --compress \
+          --filter '+ launcher.jar' \
+          --filter '+ lib' \
+          --filter '+ *.jar' \
+          --filter '- *' \
+
+    - name: Restart Helma
+      run: ssh antville.dev restart

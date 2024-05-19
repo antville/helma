@@ -39,6 +39,11 @@
       "description": "Group Jetty packages",
       "matchPackagePrefixes": ["org.eclipse.jetty"],
       "groupName": "Jetty packages"
+    },
+    {
+      "description": "Group Lucene packages",
+      "matchPackagePrefixes": ["org.apache.lucene"],
+      "groupName": "Lucene packages"
     }
   ]
 }
