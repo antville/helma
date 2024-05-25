@@ -82,7 +82,7 @@ public final class TransientProperty implements IProperty, Serializable {
                 return Long.valueOf(lvalue);
 
             case FLOAT:
-                return new Double(dvalue);
+                return Double.valueOf(dvalue);
 
             case DATE:
                 return new Date(lvalue);

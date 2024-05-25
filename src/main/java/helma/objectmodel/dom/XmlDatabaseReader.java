@@ -225,7 +225,7 @@ public final class XmlDatabaseReader extends DefaultHandler implements XmlConsta
                     prop.setStringValue(charValue);
                 }
             } else if ("float".equals(elementType)) {
-                prop.setFloatValue((new Double(charValue)).doubleValue());
+                prop.setFloatValue((Double.valueOf(charValue)).doubleValue());
             } else if ("integer".equals(elementType)) {
                 prop.setIntegerValue((Long.valueOf(charValue)).longValue());
             } else {
