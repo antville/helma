@@ -564,7 +564,9 @@ public class ApplicationManager implements XmlRpcHandler {
                 // unbind from Jetty HTTP server
                 if (ApplicationManager.this.jetty != null) {
                     if (this.appContext != null) {
-                        ApplicationManager.this.context.removeHandler(this.appContext);
+                        // FIXME: Causing incompatible types: ServletContextHandler cannot be converted to Handler
+                        // Is it necessary, anyway?
+                        //ApplicationManager.this.context.removeHandler(this.appContext);
                         this.appContext.stop();
                         this.appContext.destroy();
                         this.appContext = null;
