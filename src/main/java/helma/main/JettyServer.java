@@ -102,12 +102,13 @@ public class JettyServer {
     }
 
     private void openListeners() throws IOException {
-        // opening the listener here allows us to run on priviledged port 80 under jsvc
+        // opening the listener here allows us to run on privileged port 80 under jsvc
         // even as non-root user, because init() is called with root privileges
         // while start() will be called with the user we will actually run as
-        Connector[] connectors = http.getConnectors();
-        for (int i = 0; i < connectors.length; i++) {
-            ((ServerConnector) connectors[i]).open();
+        for (var connector : http.getConnectors()) {
+            if (connector instanceof ServerConnector) {
+                ((ServerConnector) connector).open();
+            }
         }
     }
 }
