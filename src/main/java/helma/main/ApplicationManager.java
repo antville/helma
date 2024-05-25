@@ -19,11 +19,13 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.xmlrpc.XmlRpcHandler;
+
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.ee9.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee9.servlet.ServletHolder;
+import org.eclipse.jetty.util.resource.ResourceFactory;
 
 import helma.framework.core.Application;
 import helma.framework.repository.FileRepository;
@@ -481,19 +483,21 @@ public class ApplicationManager implements XmlRpcHandler {
 
                     // if there is a static direcory specified, mount it
                     if (this.staticDir != null) {
+                        String staticPath = getAbsoluteFile(this.staticDir).getPath();
 
-                        File staticContent = getAbsoluteFile(this.staticDir);
-
-                        getLogger().info("Serving static from " + staticContent.getPath());
+                        getLogger().info("Serving static from " + staticPath);
                         getLogger().info("Mounting static at " + staticMountpoint);
 
                         ResourceHandler rhandler = new ResourceHandler();
-                        rhandler.setResourceBase(staticContent.getPath());
+                        rhandler.setBaseResource(ResourceFactory.of(rhandler).newResource(staticPath));
                         rhandler.setWelcomeFiles(staticHome);
 
-                        staticContext = ApplicationManager.this.context.addContext(staticMountpoint, ""); //$NON-NLS-1$
+                        ContextHandler staticContext = new ContextHandler();
+                        staticContext.setContextPath(staticMountpoint);
+                        staticContext.setBaseResourceAsString("");
                         staticContext.setHandler(rhandler);
 
+                        ApplicationManager.this.context.addHandler(staticContext);
                         staticContext.start();
                     }
 
