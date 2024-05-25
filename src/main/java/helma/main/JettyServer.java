@@ -76,7 +76,6 @@ public class JettyServer {
             connector.setHost(webPort.getAddress().getHostAddress());
             connector.setPort(webPort.getPort());
             connector.setIdleTimeout(30000);
-            connector.setSoLingerTime(-1);
             connector.setAcceptorPriorityDelta(0);
             connector.setAcceptQueueSize(0);
 
