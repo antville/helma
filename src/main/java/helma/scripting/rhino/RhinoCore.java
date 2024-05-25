@@ -620,7 +620,7 @@ public final class RhinoCore implements ScopeProvider {
             if (arg instanceof Float || arg instanceof Long) {
                 return Double.valueOf(n.doubleValue());
             } else if (!(arg instanceof Double)) {
-                return new Integer(n.intValue());
+                return Integer.valueOf(n.intValue());
             }
         } else if (arg instanceof INode) {
             // interpret HopObject as object/dict

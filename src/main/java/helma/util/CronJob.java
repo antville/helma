@@ -10,39 +10,39 @@ package helma.util;
 /**
  *  The Protomatter Software License, Version 1.0
  *  derived from The Apache Software License, Version 1.1
- *  
+ *
  *  Copyright (c) 1998-2002 Nate Sammons.  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *  1. Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- *  
+ *
  *  2. Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
  *     distribution.
- *  
+ *
  *  3. The end-user documentation included with the redistribution,
  *     if any, must include the following acknowledgment:
  *        "This product includes software developed for the
  *         Protomatter Software Project
  *         (http://protomatter.sourceforge.net/)."
- *     Alternately, this acknowledgment may appear in the software itself, 
+ *     Alternately, this acknowledgment may appear in the software itself,
  *     if and wherever such third-party acknowledgments normally appear.
- *  
+ *
  *  4. The names "Protomatter" and "Protomatter Software Project" must
  *     not be used to endorse or promote products derived from this
  *     software without prior written permission. For written
  *     permission, please contact support@protomatter.com.
- *  
+ *
  *  5. Products derived from this software may not be called "Protomatter",
  *     nor may "Protomatter" appear in their name, without prior written
  *     permission of the Protomatter Software Project
  *     (support@protomatter.com).
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -103,7 +103,7 @@ public class CronJob {
      *  cron.name1.minute   = minute-list
      *
      *  cron.name1.timeout  = timeout-value
-     *  
+     *
      *  </pre></blockquote><p>
      *
      *  And delivers corresponding <tt>CronJob</tt> objects in a collection.
@@ -450,27 +450,27 @@ public class CronJob {
     cal.setTime(date);
 
     // try and short-circuit as fast as possible.
-    Integer theYear = new Integer(cal.get(Calendar.YEAR));
+    Integer theYear = Integer.valueOf(cal.get(Calendar.YEAR));
     if (!year.contains(ALL_VALUE) && !year.contains(theYear))
       return false;
 
-    Integer theMonth = new Integer(cal.get(Calendar.MONTH));
+    Integer theMonth = Integer.valueOf(cal.get(Calendar.MONTH));
     if (!month.contains(ALL_VALUE) && !month.contains(theMonth))
       return false;
 
-    Integer theDay = new Integer(cal.get(Calendar.DAY_OF_MONTH));
+    Integer theDay = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
     if (!day.contains(ALL_VALUE) && !day.contains(theDay))
       return false;
 
-    Integer theWeekDay = new Integer(cal.get(Calendar.DAY_OF_WEEK));
+    Integer theWeekDay = Integer.valueOf(cal.get(Calendar.DAY_OF_WEEK));
     if (!weekday.contains(ALL_VALUE) && !weekday.contains(theWeekDay))
       return false;
 
-    Integer theHour = new Integer(cal.get(Calendar.HOUR_OF_DAY));
+    Integer theHour = Integer.valueOf(cal.get(Calendar.HOUR_OF_DAY));
     if (!hour.contains(ALL_VALUE) && !hour.contains(theHour))
       return false;
 
-    Integer theMinute = new Integer(cal.get(Calendar.MINUTE));
+    Integer theMinute = Integer.valueOf(cal.get(Calendar.MINUTE));
     if (!minute.contains(ALL_VALUE) && !minute.contains(theMinute))
       return false;
 
@@ -484,7 +484,7 @@ public class CronJob {
   public void addYear(int year)
   {
     this.year.remove(ALL_VALUE);
-    this.year.add(new Integer(year));
+    this.year.add(Integer.valueOf(year));
   }
 
   /**
@@ -492,7 +492,7 @@ public class CronJob {
    */
   public void removeYear(int year)
   {
-    this.year.remove(new Integer(year));
+    this.year.remove(Integer.valueOf(year));
   }
 
   /**
@@ -520,7 +520,7 @@ public class CronJob {
   public void addMonth(int month)
   {
     this.month.remove(ALL_VALUE);
-    this.month.add(new Integer(month));
+    this.month.add(Integer.valueOf(month));
   }
 
   /**
@@ -530,7 +530,7 @@ public class CronJob {
    */
   public void removeMonth(int month)
   {
-    this.month.remove(new Integer(month));
+    this.month.remove(Integer.valueOf(month));
   }
 
   /**
@@ -556,7 +556,7 @@ public class CronJob {
   public void addDay(int day)
   {
     this.day.remove(ALL_VALUE);
-    this.day.add(new Integer(day));
+    this.day.add(Integer.valueOf(day));
   }
 
   /**
@@ -564,7 +564,7 @@ public class CronJob {
    */
   public void removeDay(int day)
   {
-    this.day.remove(new Integer(day));
+    this.day.remove(Integer.valueOf(day));
   }
 
   /**
@@ -592,7 +592,7 @@ public class CronJob {
   public void addWeekday(int weekday)
   {
     this.weekday.remove(ALL_VALUE);
-    this.weekday.add(new Integer(weekday));
+    this.weekday.add(Integer.valueOf(weekday));
   }
 
   /**
@@ -602,7 +602,7 @@ public class CronJob {
    */
   public void removeWeekday(int weekday)
   {
-    this.weekday.remove(new Integer(weekday));
+    this.weekday.remove(Integer.valueOf(weekday));
   }
 
   /**
@@ -628,7 +628,7 @@ public class CronJob {
   public void addHour(int hour)
   {
     this.hour.remove(ALL_VALUE);
-    this.hour.add(new Integer(hour));
+    this.hour.add(Integer.valueOf(hour));
   }
 
   /**
@@ -636,7 +636,7 @@ public class CronJob {
    */
   public void removeHour(int hour)
   {
-    this.hour.remove(new Integer(hour));
+    this.hour.remove(Integer.valueOf(hour));
   }
 
   /**
@@ -662,7 +662,7 @@ public class CronJob {
   public void addMinute(int minute)
   {
     this.minute.remove(ALL_VALUE);
-    this.minute.add(new Integer(minute));
+    this.minute.add(Integer.valueOf(minute));
   }
 
   /**
@@ -670,7 +670,7 @@ public class CronJob {
    */
   public void removeMinute(int minute)
   {
-    this.minute.remove(new Integer(minute));
+    this.minute.remove(Integer.valueOf(minute));
   }
 
   /**

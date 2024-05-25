@@ -106,7 +106,7 @@ public class PathWrapper extends ScriptableObject {
         Object[] ids = new Object[path.size()];
 
         for (int i=0; i<ids.length; i++) {
-            ids[i] = new Integer(i);
+            ids[i] = Integer.valueOf(i);
         }
 
         return ids;
