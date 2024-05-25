@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.Hashtable;
 
 /**
- * 
+ *
  */
 public final class XmlDatabaseReader extends DefaultHandler implements XmlConstants {
     static SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -227,7 +227,7 @@ public final class XmlDatabaseReader extends DefaultHandler implements XmlConsta
             } else if ("float".equals(elementType)) {
                 prop.setFloatValue((new Double(charValue)).doubleValue());
             } else if ("integer".equals(elementType)) {
-                prop.setIntegerValue((new Long(charValue)).longValue());
+                prop.setIntegerValue((Long.valueOf(charValue)).longValue());
             } else {
                 prop.setStringValue(charValue);
             }

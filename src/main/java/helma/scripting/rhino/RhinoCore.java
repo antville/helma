@@ -569,7 +569,7 @@ public final class RhinoCore implements ScopeProvider {
             return arg;
         if (arg instanceof Date) {
             Date d = (Date) arg;
-            Object[] args = { new Long(d.getTime()) };
+            Object[] args = { Long.valueOf(d.getTime()) };
             return Context.getCurrentContext().newObject(global, "Date", args);
         }
         return Context.toObject(arg, global);
@@ -1146,7 +1146,7 @@ public final class RhinoCore implements ScopeProvider {
 
             // Convert java.util.Date objects to JavaScript Dates
             if (obj instanceof Date) {
-                Object[] args = { new Long(((Date) obj).getTime()) };
+                Object[] args = { Long.valueOf(((Date) obj).getTime()) };
                 try {
                     return cx.newObject(global, "Date", args);
                  } catch (JavaScriptException nafx) {
