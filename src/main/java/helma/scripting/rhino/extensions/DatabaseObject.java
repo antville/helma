@@ -456,7 +456,7 @@ public class DatabaseObject {
 
             // First return system or or prototype properties
             if (propertyName.equals("length")) {
-                 return new Integer(colNames.size());
+                 return Integer.valueOf(colNames.size());
             } else {
                if (resultSet == null) {
                     lastError = new SQLException("Attempt to access a released result set");
