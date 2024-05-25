@@ -501,7 +501,10 @@ public class ApplicationManager implements XmlRpcHandler {
                         staticContext.start();
                     }
 
-                    appContext = new ServletContextHandler(context, pathPattern, true, true);
+                    appContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
+                    appContext.setContextPath(pathPattern);
+                    context.addHandler(appContext);
+
                     Class servletClass = servletClassName == null ?
                             EmbeddedServletClient.class : Class.forName(servletClassName);
                     ServletHolder holder = new ServletHolder(servletClass);
