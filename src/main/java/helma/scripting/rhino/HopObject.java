@@ -217,7 +217,7 @@ public class HopObject extends ScriptableObject implements Wrapper, PropertyReco
         INode node = getNode();
 
         if (skin != null) {
-            skin.render(engine.reval, node, 
+            skin.render(engine.reval, node,
                     (paramobj == Undefined.instance) ? null : paramobj);
         }
 
@@ -711,7 +711,7 @@ public class HopObject extends ScriptableObject implements Wrapper, PropertyReco
     public int jsFunction_contains(Object obj) {
         return jsFunction_indexOf(obj);
     }
-    
+
     /**
      * Set a property in this HopObject
      *
@@ -879,7 +879,7 @@ public class HopObject extends ScriptableObject implements Wrapper, PropertyReco
                     if (d == null) {
                         return null;
                     } else {
-                        Object[] args = { new Long(d.getTime()) };
+                        Object[] args = { Long.valueOf(d.getTime()) };
                         try {
                             return cx.newObject(core.global, "Date", args);
                         } catch (JavaScriptException nafx) {
