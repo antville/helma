@@ -24,18 +24,27 @@ import helma.framework.core.Application;
 import helma.util.*;
 
 import java.io.*;
-import java.util.*;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
+
 import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.*;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
+
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.FileUploadSizeException;
+import org.apache.commons.fileupload2.core.ProgressListener;
+
+import org.apache.commons.fileupload2.jakarta.JakartaServletDiskFileUpload;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+import org.apache.commons.fileupload2.jakarta.JakartaServletRequestContext;
 
 /**
  * This is an abstract Hop servlet adapter. This class communicates with hop applications
@@ -222,7 +231,7 @@ public abstract class AbstractServletClient extends HttpServlet {
             List uploads = null;
             JakartaServletRequestContext reqcx = new JakartaServletRequestContext(request);
 
-            if (ServletFileUpload.isMultipartContent(reqcx)) {
+            if (JakartaServletFileUpload.isMultipartContent(reqcx)) {
                 // get session for upload progress monitoring
                 UploadStatus uploadStatus = getApplication().getUploadStatus(reqtrans);
                 try {
@@ -230,7 +239,7 @@ public abstract class AbstractServletClient extends HttpServlet {
                 } catch (Exception upx) {
                     log("Error in file upload", upx);
                     String message;
-                    boolean tooLarge = (upx instanceof FileUploadBase.SizeLimitExceededException);
+                    boolean tooLarge = (upx instanceof FileUploadSizeException);
                     if (tooLarge) {
                         message = "File upload size exceeds limit of " + uploadLimit + " kB";
                     } else {
@@ -657,10 +666,10 @@ public abstract class AbstractServletClient extends HttpServlet {
 
     protected List parseUploads(JakartaServletRequestContext reqcx, RequestTrans reqtrans,
                                 final UploadStatus uploadStatus, String encoding)
-            throws FileUploadException, UnsupportedEncodingException {
+            throws FileUploadException, UnsupportedCharsetException, IOException {
         // handle file upload
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        FileUpload upload = new FileUpload(factory);
+        DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+        JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
         // use upload limit for individual file size, but also set a limit on overall size
         upload.setFileSizeMax(uploadLimit * 1024);
         upload.setSizeMax(totalUploadLimit * 1024);
@@ -683,7 +692,7 @@ public abstract class AbstractServletClient extends HttpServlet {
             Object value;
             // check if this is an ordinary HTML form element or a file upload
             if (item.isFormField()) {
-                value =  item.getString(encoding);
+                value =  item.getString(Charset.forName(encoding));
             } else {
                 value = new MimePart(item);
             }

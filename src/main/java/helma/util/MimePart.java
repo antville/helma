@@ -16,7 +16,7 @@
 
 package helma.util;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import java.io.*;
 import java.util.Date;
@@ -238,7 +238,7 @@ public class MimePart implements Serializable {
             file = new File(base, filename);
 
             if (fileItem != null) {
-                fileItem.write(file);
+                fileItem.write(file.toPath());
                 // null out fileItem, since calling write() may have moved the temp file
                 fileItem = null;
             } else {
@@ -249,7 +249,7 @@ public class MimePart implements Serializable {
             // return file name
             return filename;
         } catch (Exception x) {
-            System.err.println("Error in MimePart.writeToFile(): " + x);            
+            System.err.println("Error in MimePart.writeToFile(): " + x);
             return null;
         }
     }
