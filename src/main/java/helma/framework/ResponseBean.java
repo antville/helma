@@ -280,9 +280,9 @@ public class ResponseBean implements Serializable {
     }
 
     /**
-     * add an HTML formatted debug message to the end of the page.
+     * add HTML formatted debug messages to the end of the page.
      *
-     * @param message the message
+     * @param messages the list of messages
      */
     public void debug(String... messages) {
         if (messages == null) {
