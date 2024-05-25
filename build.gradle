@@ -66,7 +66,7 @@ dependencies {
   implementation 'com.sun.mail:javax.mail:1.6.2'
   implementation 'javax.servlet:javax.servlet-api:4.0.1'
   implementation 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
-  implementation 'org.eclipse.jetty:jetty-servlet:11.0.21'
+  implementation 'org.eclipse.jetty.ee9:jetty-ee9-servlet:12.0.9'
   implementation 'org.eclipse.jetty:jetty-xml:12.0.9'
   implementation 'org.mozilla:rhino:1.7.13'
   implementation 'org.sejda.imageio:webp-imageio:0.1.6'
