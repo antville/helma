@@ -543,7 +543,9 @@ public class ApplicationManager implements XmlRpcHandler {
 
                     // Remap the context paths and start
                     ApplicationManager.this.context.mapContexts();
-                    this.appContext.start();
+                    // FIXME: Causing java.lang.IllegalStateException: Shared scheduler not started
+                    // Is it necessary, anway?
+                    //this.appContext.start();
                 }
 
                 // register as XML-RPC handler
