@@ -515,7 +515,7 @@ public class DatabaseObject {
                     case Types.BIGINT:
                     case Types.SMALLINT:
                     case Types.INTEGER:
-                        return new Long(resultSet.getLong(index));
+                        return Long.valueOf(resultSet.getLong(index));
 
                     case Types.REAL:
                     case Types.FLOAT:
@@ -532,7 +532,7 @@ public class DatabaseObject {
                         if (num.scale() > 0) {
                             return new Double(num.doubleValue());
                         } else {
-                            return new Long(num.longValue());
+                            return Long.valueOf(num.longValue());
                         }
 
                     case Types.VARBINARY:
