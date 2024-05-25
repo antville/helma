@@ -76,7 +76,7 @@ public final class TransientProperty implements IProperty, Serializable {
                 return svalue;
 
             case BOOLEAN:
-                return new Boolean(bvalue);
+                return Boolean.valueOf(bvalue);
 
             case INTEGER:
                 return Long.valueOf(lvalue);
