@@ -536,10 +536,9 @@ public class ApplicationManager implements XmlRpcHandler {
                     }
 
                     if (protectedStaticDir != null) {
-                        File protectedContent = getAbsoluteFile(protectedStaticDir);
-                        appContext.setResourceBase(protectedContent.getPath());
-                        getLogger().info("Serving protected static from " +
-                                       protectedContent.getPath());
+                        String protectedContent = getAbsoluteFile(protectedStaticDir).getPath();
+                        appContext.setBaseResourceAsString(protectedContent);
+                        getLogger().info("Serving protected static from " + protectedContent);
                     }
 
                     // Remap the context paths and start
