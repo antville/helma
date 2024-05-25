@@ -520,7 +520,7 @@ public class DatabaseObject {
                     case Types.REAL:
                     case Types.FLOAT:
                     case Types.DOUBLE:
-                        return new Double(resultSet.getDouble(index));
+                        return Double.valueOf(resultSet.getDouble(index));
 
                     case Types.DECIMAL:
                     case Types.NUMERIC:
@@ -530,7 +530,7 @@ public class DatabaseObject {
                         }
 
                         if (num.scale() > 0) {
-                            return new Double(num.doubleValue());
+                            return Double.valueOf(num.doubleValue());
                         } else {
                             return Long.valueOf(num.longValue());
                         }

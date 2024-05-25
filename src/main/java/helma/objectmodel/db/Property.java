@@ -103,7 +103,7 @@ public final class Property implements IProperty, Serializable, Cloneable, Compa
                     break;
 
                 case FLOAT:
-                    value = new Double(in.readDouble());
+                    value = Double.valueOf(in.readDouble());
 
                     break;
 
@@ -242,7 +242,7 @@ public final class Property implements IProperty, Serializable, Cloneable, Compa
      */
     public void setFloatValue(double d) {
         type = FLOAT;
-        value = new Double(d);
+        value = Double.valueOf(d);
         dirty = true;
     }
 

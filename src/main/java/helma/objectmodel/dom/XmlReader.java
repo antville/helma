@@ -299,7 +299,7 @@ public final class XmlReader extends DefaultHandler implements XmlConstants {
                     currentNode.setString(elementName, charValue);
                 }
             } else if ("float".equals(elementType)) {
-                currentNode.setFloat(elementName, (new Double(charValue)).doubleValue());
+                currentNode.setFloat(elementName, (Double.valueOf(charValue)).doubleValue());
             } else if ("integer".equals(elementType)) {
                 currentNode.setInteger(elementName, (Long.valueOf(charValue)).longValue());
             } else {
