@@ -483,7 +483,7 @@ public class ApplicationManager implements XmlRpcHandler {
 
                     // if there is a static direcory specified, mount it
                     if (this.staticDir != null) {
-                        String staticPath = getAbsoluteFile(this.staticDir).getPath();
+                        String staticPath = getAbsoluteFile(this.staticDir).getCanonicalPath();
 
                         getLogger().info("Serving static from " + staticPath);
                         getLogger().info("Mounting static at " + staticMountpoint);
@@ -537,7 +537,7 @@ public class ApplicationManager implements XmlRpcHandler {
                     }
 
                     if (protectedStaticDir != null) {
-                        String protectedContent = getAbsoluteFile(protectedStaticDir).getPath();
+                        String protectedContent = getAbsoluteFile(protectedStaticDir).getCanonicalPath();
                         appContext.setBaseResourceAsString(protectedContent);
                         getLogger().info("Serving protected static from " + protectedContent);
                     }
