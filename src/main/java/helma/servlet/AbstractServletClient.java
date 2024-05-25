@@ -22,12 +22,14 @@ package helma.servlet;
 import helma.framework.*;
 import helma.framework.core.Application;
 import helma.util.*;
+
 import java.io.*;
 import java.util.*;
 import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
-import javax.servlet.*;
-import javax.servlet.http.*;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -218,7 +220,7 @@ public abstract class AbstractServletClient extends HttpServlet {
 
             // read file uploads
             List uploads = null;
-            ServletRequestContext reqcx = new ServletRequestContext(request);
+            JakartaServletRequestContext reqcx = new JakartaServletRequestContext(request);
 
             if (ServletFileUpload.isMultipartContent(reqcx)) {
                 // get session for upload progress monitoring
@@ -653,7 +655,7 @@ public abstract class AbstractServletClient extends HttpServlet {
         map.put(name, newValues);
     }
 
-    protected List parseUploads(ServletRequestContext reqcx, RequestTrans reqtrans,
+    protected List parseUploads(JakartaServletRequestContext reqcx, RequestTrans reqtrans,
                                 final UploadStatus uploadStatus, String encoding)
             throws FileUploadException, UnsupportedEncodingException {
         // handle file upload

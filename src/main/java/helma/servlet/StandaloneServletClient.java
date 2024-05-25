@@ -23,7 +23,7 @@ import helma.main.ServerConfig;
 import helma.main.Server;
 
 import java.io.*;
-import javax.servlet.*;
+import jakarta.servlet.*;
 import java.util.*;
 
 /**
@@ -98,7 +98,7 @@ public final class StandaloneServletClient extends AbstractServletClient {
                         repositoryImpl = "helma.framework.repository.FileRepository";
                     }
                 }
-        
+
                 try {
                     Repository newRepository = (Repository) Class.forName(repositoryImpl)
                         .getConstructor(parameters)
@@ -116,7 +116,7 @@ public final class StandaloneServletClient extends AbstractServletClient {
                 }
             }
         }
-        
+
         // add app dir
         FileRepository appRep = new FileRepository(appDir);
         log("adding repository: " + appDir);

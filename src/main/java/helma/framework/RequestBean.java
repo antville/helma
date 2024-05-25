@@ -16,12 +16,12 @@
 
 package helma.framework;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Map;
 
 /**
- * 
+ *
  */
 public class RequestBean implements Serializable {
     private static final long serialVersionUID = -6826881712426326687L;
@@ -89,7 +89,7 @@ public class RequestBean implements Serializable {
      * @return the header value, or null
      */
     public String getHeader(String name) {
-        return req.getHeader(name);        
+        return req.getHeader(name);
     }
 
     /**
