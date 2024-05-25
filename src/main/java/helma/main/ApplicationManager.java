@@ -494,7 +494,8 @@ public class ApplicationManager implements XmlRpcHandler {
 
                         ContextHandler staticContext = new ContextHandler();
                         staticContext.setContextPath(staticMountpoint);
-                        staticContext.setBaseResourceAsString("");
+                        // FIXME: Causing java.lang.IllegalArgumentException: Resource String is invalid
+                        //staticContext.setBaseResourceAsString("");
                         staticContext.setHandler(rhandler);
 
                         ApplicationManager.this.context.addHandler(staticContext);
