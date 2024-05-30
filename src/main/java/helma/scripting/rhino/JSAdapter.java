@@ -1,26 +1,26 @@
 /*
- * The contents of this file are subject to the terms 
- * of the Common Development and Distribution License 
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
- * You can obtain a copy of the license at 
+ *
+ * You can obtain a copy of the license at
  * https://glassfish.dev.java.net/public/CDDLv1.0.html or
  * glassfish/bootstrap/legal/CDDLv1.0.txt.
- * See the License for the specific language governing 
+ * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
- * When distributing Covered Code, include this CDDL 
- * Header Notice in each file and include the License file 
- * at glassfish/bootstrap/legal/CDDLv1.0.txt.  
- * If applicable, add the following below the CDDL Header, 
+ *
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at glassfish/bootstrap/legal/CDDLv1.0.txt.
+ * If applicable, add the following below the CDDL Header,
  * with the fields enclosed by brackets [] replaced by
- * you own identifying information: 
+ * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2006 Sun Microsystems, Inc. All rights reserved.
  */
- 
+
 package helma.scripting.rhino;
 
 import org.mozilla.javascript.*;
@@ -71,7 +71,7 @@ public final class JSAdapter implements Scriptable, Function {
     private JSAdapter(Scriptable obj) {
         setAdaptee(obj);
     }
-    
+
     // initializer to setup JSAdapter prototype in the given scope
     public static void init(Context cx, Scriptable scope, boolean sealed)
     throws RhinoException {
@@ -82,11 +82,11 @@ public final class JSAdapter implements Scriptable, Function {
         ScriptableObject.defineProperty(scope, "JSAdapter",  obj,
                 ScriptableObject.DONTENUM);
     }
-    
+
     public String getClassName() {
         return "JSAdapter";
     }
-    
+
     public Object get(String name, Scriptable start) {
         Function func = getAdapteeFunction(GET_PROP);
         if (func != null) {
@@ -96,17 +96,17 @@ public final class JSAdapter implements Scriptable, Function {
             return start.get(name, start);
         }
     }
-    
+
     public Object get(int index, Scriptable start) {
         Function func = getAdapteeFunction(GET_PROP);
         if (func != null) {
-            return call(func, new Object[] { new Integer(index) });
+            return call(func, new Object[] { Integer.valueOf(index) });
         } else {
             start = getAdaptee();
             return start.get(index, start);
         }
     }
-    
+
     public boolean has(String name, Scriptable start) {
         Function func = getAdapteeFunction(HAS_PROP);
         if (func != null) {
@@ -117,18 +117,18 @@ public final class JSAdapter implements Scriptable, Function {
             return start.has(name, start);
         }
     }
-    
+
     public boolean has(int index, Scriptable start) {
         Function func = getAdapteeFunction(HAS_PROP);
         if (func != null) {
-            Object res = call(func, new Object[] { new Integer(index) });
+            Object res = call(func, new Object[] { Integer.valueOf(index) });
             return Context.toBoolean(res);
         } else {
             start = getAdaptee();
             return start.has(index, start);
         }
     }
-    
+
     public void put(String name, Scriptable start, Object value) {
         if (start == this) {
             Function func = getAdapteeFunction(PUT_PROP);
@@ -142,12 +142,12 @@ public final class JSAdapter implements Scriptable, Function {
             start.put(name, start, value);
         }
     }
-    
+
     public void put(int index, Scriptable start, Object value) {
         if (start == this) {
             Function func = getAdapteeFunction(PUT_PROP);
             if( func != null) {
-                call(func, new Object[] { new Integer(index), value });
+                call(func, new Object[] { Integer.valueOf(index), value });
             } else {
                 start = getAdaptee();
                 start.put(index, start, value);
@@ -156,7 +156,7 @@ public final class JSAdapter implements Scriptable, Function {
             start.put(index, start, value);
         }
     }
-    
+
     public void delete(String name) {
         Function func = getAdapteeFunction(DEL_PROP);
         if (func != null) {
@@ -165,32 +165,32 @@ public final class JSAdapter implements Scriptable, Function {
             getAdaptee().delete(name);
         }
     }
-    
+
     public void delete(int index) {
         Function func = getAdapteeFunction(DEL_PROP);
         if (func != null) {
-            call(func, new Object[] { new Integer(index) });
+            call(func, new Object[] { Integer.valueOf(index) });
         } else {
             getAdaptee().delete(index);
         }
     }
-    
+
     public Scriptable getPrototype() {
         return prototype;
     }
-    
+
     public void setPrototype(Scriptable prototype) {
         this.prototype = prototype;
     }
-    
+
     public Scriptable getParentScope() {
         return parent;
     }
-    
+
     public void setParentScope(Scriptable parent) {
         this.parent = parent;
     }
-    
+
     public Object[] getIds() {
         Function func = getAdapteeFunction(GET_PROPIDS);
         if (func != null) {
@@ -226,7 +226,7 @@ public final class JSAdapter implements Scriptable, Function {
             return getAdaptee().getIds();
         }
     }
-    
+
     public boolean hasInstance(Scriptable scriptable) {
         if (scriptable instanceof JSAdapter) {
             return true;
@@ -239,11 +239,11 @@ public final class JSAdapter implements Scriptable, Function {
             return false;
         }
     }
-    
+
     public Object getDefaultValue(Class hint) {
         return ScriptableObject.getDefaultValue(this, hint);
     }
-    
+
     public Object call(Context cx, Scriptable scope, Scriptable thisObj,
             Object[] args)
             throws RhinoException {
@@ -258,7 +258,7 @@ public final class JSAdapter implements Scriptable, Function {
             }
         }
     }
-    
+
     public Scriptable construct(Context cx, Scriptable scope, Object[] args)
     throws RhinoException {
         if (isPrototype) {
@@ -279,38 +279,38 @@ public final class JSAdapter implements Scriptable, Function {
             }
         }
     }
-    
+
     public Scriptable getAdaptee() {
         return adaptee;
     }
-    
+
     public void setAdaptee(Scriptable adaptee) {
         if (adaptee == null) {
             throw new NullPointerException("adaptee can not be null");
         }
         this.adaptee = adaptee;
     }
-    
+
     //-- internals only below this point
-    
+
     // map a property id. Property id can only be an Integer or String
     private Object mapToId(Object tmp) {
         if (tmp instanceof Double) {
-            return new Integer(((Double)tmp).intValue());
+            return Integer.valueOf(((Double)tmp).intValue());
         } else {
             return Context.toString(tmp);
         }
     }
-    
+
     private static Scriptable getFunctionPrototype(Scriptable scope) {
         return ScriptableObject.getFunctionPrototype(scope);
     }
-    
+
     private Function getAdapteeFunction(String name) {
         Object o = ScriptableObject.getProperty(getAdaptee(), name);
         return (o instanceof Function)? (Function)o : null;
     }
-    
+
     private Object call(Function func, Object[] args) {
         Context cx = Context.getCurrentContext();
         Scriptable thisObj = getAdaptee();
@@ -321,12 +321,12 @@ public final class JSAdapter implements Scriptable, Function {
             throw Context.reportRuntimeError(re.getMessage());
         }
     }
-    
+
     private Scriptable prototype;
     private Scriptable parent;
     private Scriptable adaptee;
     private boolean isPrototype;
-    
+
     // names of adaptee JavaScript functions
     private static final String GET_PROP = "__get__";
     private static final String HAS_PROP = "__has__";

@@ -384,7 +384,7 @@ public final class ResponseTrans extends Writer implements Serializable {
     }
 
     /**
-     * Replace special characters with entities, including <, > and ", thus allowing
+     * Replace special characters with entities, including {@code <}, {@code >} and {@code "}, thus allowing
      * no HTML tags.
      */
     public synchronized void encode(Object what) {
@@ -415,7 +415,7 @@ public final class ResponseTrans extends Writer implements Serializable {
     }
 
     /**
-     * Replace special characters with entities, including <, > and ", thus allowing
+     * Replace special characters with entities, including {@code <}, {@code >} and {@code "}, thus allowing
      * no HTML tags.
      */
     public synchronized void encodeXml(Object what) {

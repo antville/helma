@@ -106,7 +106,7 @@ public class Profiler implements Debugger {
                             Scriptable thisObj, Object[] args) {
 
             long time = System.nanoTime();
-            timer.push(new Long(time));
+            timer.push(Long.valueOf(time));
         }
 
         /**

@@ -240,7 +240,7 @@ public class Transactor {
     public void registerConnection(DbSource src, Connection con) {
         sqlConnections.put(src, con);
         // we assume a freshly created connection is ok.
-        testedConnections.put(src, new Long(System.currentTimeMillis()));
+        testedConnections.put(src, Long.valueOf(System.currentTimeMillis()));
     }
 
     /**
@@ -262,7 +262,7 @@ public class Transactor {
                     stmt.execute("SELECT 1");
                 }
                 stmt.close();
-                testedConnections.put(src, new Long(now));
+                testedConnections.put(src, Long.valueOf(now));
             } catch (SQLException sx) {
                 try {
                     con.close();

@@ -764,7 +764,7 @@ public abstract class AbstractServletClient extends HttpServlet {
      * <strong>IMPLEMENTATION NOTE</strong>:  URL decoding is performed
      * individually on the parsed name and value elements, rather than on
      * the entire query string ahead of time, to properly deal with the case
-     * where the name or value includes an encoded "=" or "&" character
+     * where the name or value includes an encoded {@code =} or {@code &} character
      * that would otherwise be interpreted as a delimiter.
      *
      * NOTE: byte array data is modified by this method.  Caller beware.

@@ -93,7 +93,7 @@ public final class Property implements IProperty, Serializable, Cloneable, Compa
                     break;
 
                 case INTEGER:
-                    value = new Long(in.readLong());
+                    value = Long.valueOf(in.readLong());
 
                     break;
 
@@ -103,7 +103,7 @@ public final class Property implements IProperty, Serializable, Cloneable, Compa
                     break;
 
                 case FLOAT:
-                    value = new Double(in.readDouble());
+                    value = Double.valueOf(in.readDouble());
 
                     break;
 
@@ -231,7 +231,7 @@ public final class Property implements IProperty, Serializable, Cloneable, Compa
      */
     public void setIntegerValue(long l) {
         type = INTEGER;
-        value = new Long(l);
+        value = Long.valueOf(l);
         dirty = true;
     }
 
@@ -242,7 +242,7 @@ public final class Property implements IProperty, Serializable, Cloneable, Compa
      */
     public void setFloatValue(double d) {
         type = FLOAT;
-        value = new Double(d);
+        value = Double.valueOf(d);
         dirty = true;
     }
 
