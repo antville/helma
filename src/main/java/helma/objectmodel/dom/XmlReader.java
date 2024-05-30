@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 /**
- * 
+ *
  */
 public final class XmlReader extends DefaultHandler implements XmlConstants {
     static SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -213,9 +213,9 @@ public final class XmlReader extends DefaultHandler implements XmlConstants {
                     if (propName == null) {
                         propName = qName;
                     }
-                    
+
                     if ("hop:parent".equals(qName)) {
-                        // FIXME: we ought to set parent here, but we're 
+                        // FIXME: we ought to set parent here, but we're
                         // dealing with INodes, which don't have a setParent().
                     } else {
                         currentNode.setNode(propName, n);
@@ -299,9 +299,9 @@ public final class XmlReader extends DefaultHandler implements XmlConstants {
                     currentNode.setString(elementName, charValue);
                 }
             } else if ("float".equals(elementType)) {
-                currentNode.setFloat(elementName, (new Double(charValue)).doubleValue());
+                currentNode.setFloat(elementName, (Double.valueOf(charValue)).doubleValue());
             } else if ("integer".equals(elementType)) {
-                currentNode.setInteger(elementName, (new Long(charValue)).longValue());
+                currentNode.setInteger(elementName, (Long.valueOf(charValue)).longValue());
             } else {
                 currentNode.setString(elementName, charValue);
             }

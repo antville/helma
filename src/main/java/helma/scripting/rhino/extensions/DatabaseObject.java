@@ -456,7 +456,7 @@ public class DatabaseObject {
 
             // First return system or or prototype properties
             if (propertyName.equals("length")) {
-                 return new Integer(colNames.size());
+                 return Integer.valueOf(colNames.size());
             } else {
                if (resultSet == null) {
                     lastError = new SQLException("Attempt to access a released result set");
@@ -515,12 +515,12 @@ public class DatabaseObject {
                     case Types.BIGINT:
                     case Types.SMALLINT:
                     case Types.INTEGER:
-                        return new Long(resultSet.getLong(index));
+                        return Long.valueOf(resultSet.getLong(index));
 
                     case Types.REAL:
                     case Types.FLOAT:
                     case Types.DOUBLE:
-                        return new Double(resultSet.getDouble(index));
+                        return Double.valueOf(resultSet.getDouble(index));
 
                     case Types.DECIMAL:
                     case Types.NUMERIC:
@@ -530,9 +530,9 @@ public class DatabaseObject {
                         }
 
                         if (num.scale() > 0) {
-                            return new Double(num.doubleValue());
+                            return Double.valueOf(num.doubleValue());
                         } else {
-                            return new Long(num.longValue());
+                            return Long.valueOf(num.longValue());
                         }
 
                     case Types.VARBINARY:

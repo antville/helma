@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-- Make sure you have Java 11 or higher installed
+- Make sure you have Java 17 or higher installed
 - Download and unpack the [latest release](https://github.com/antville/helma/releases)
 - Invoke `./bin/helma`, resp. `./bin/helma.bat`, depending on your platform
 - Direct your web browser to <http://localhost:8080>
@@ -21,9 +21,9 @@ Although Helma became a Grande Dame of server-side JavaScript already decades ag
 
 ## System Requirements
 
-You need a Java virtual machine version 11 or higher to run Helma.
+You need a Java virtual machine version 17 or higher to run Helma.
 
-Please consult the documentation of your platform how to obtain and install Java.
+Please consult the documentation of your platform on how to obtain and install Java.
 
 You also can directly download a [Java runtime or development kit](https://www.oracle.com/java/technologies/javase-downloads.html#javasejdk) from Oracle.
 
@@ -34,9 +34,9 @@ Helma is built with [Gradle](https://gradle.org), the build task depends on the 
 ### Additional Prerequisites
 
 * [Rsync](https://rsync.samba.org) version ≥ 3.1.0
-* [NodeJS](https://nodejs.org) LTS version
+* [Node.js](https://nodejs.org) LTS version
 
-Clone this repository to your machine and start the build process with `./gradlew install`. The build script is going to ask you if you want to update the installation, enter `y`.
+Clone this repository to your machine and start the build process with `./gradlew install`. The build script is going to ask you if you want to update the installation, enter `yes` or `no`.
 
 > ⚠️    
 > Please be aware that this step is going to overwrite files in the installation directory – escpecially at a later time when there might be substantial changes. Should this happen by accident you find the previous installation in the `backups` directory.

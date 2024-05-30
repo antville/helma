@@ -127,7 +127,7 @@ public final class HtmlEncoder {
     /**
      *  Do "smart" encodging on a string. This means that valid HTML entities and tags,
      *  Helma macros and HTML comments are passed through unescaped, while
-     *  other occurrences of '<', '>' and '&' are encoded to HTML entities.
+     *  other occurrences of {@code <}, {@code >} and {@code &} are encoded to HTML entities.
      */
     public final static String encode(String str) {
         if (str == null) {
@@ -151,7 +151,7 @@ public final class HtmlEncoder {
     /**
      *  Do "smart" encodging on a string. This means that valid HTML entities and tags,
      *  Helma macros and HTML comments are passed through unescaped, while
-     *  other occurrences of '<', '>' and '&' are encoded to HTML entities.
+     *  other occurrences of {@code <}, {@code >} and {@code &} are encoded to HTML entities.
      */
     public final static void encode(String str, StringBuffer ret) {
         encode(str, ret, false, null);
@@ -160,7 +160,7 @@ public final class HtmlEncoder {
     /**
      *  Do "smart" encodging on a string. This means that valid HTML entities and tags,
      *  Helma macros and HTML comments are passed through unescaped, while
-     *  other occurrences of '<', '>' and '&' are encoded to HTML entities.
+     *  other occurrences of {@code <}, {@code >} and {@code &} are encoded to HTML entities.
      *
      *  @param str the string to encode
      *  @param ret the string buffer to encode to

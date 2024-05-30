@@ -129,7 +129,7 @@ public final class TypeManager {
     protected synchronized void checkRepository(Repository repository, boolean update) throws IOException {
         Repository[] list = repository.getRepositories();
         for (int i = 0; i < list.length; i++) {
- 
+
             // ignore dir name found - compare to shortname (= Prototype name)
             if (ignoreDirs.contains(list[i].getShortName())) {
                 // jump this repository
@@ -140,7 +140,7 @@ public final class TypeManager {
             }
 
             if (list[i].isScriptRoot()) {
-                // this is an embedded top-level script repository 
+                // this is an embedded top-level script repository
                 if (app.addRepository(list[i], list[i].getParentRepository())) {
                     // repository is new, check it
                     checkRepository(list[i], update);
@@ -153,7 +153,7 @@ public final class TypeManager {
                 // if prototype doesn't exist, create it
                 if (proto == null) {
                     // create new prototype if type name is valid
-                    if (isValidTypeName(name)) 
+                    if (isValidTypeName(name))
                         createPrototype(name, list[i], null);
                 } else {
                     proto.addRepository(list[i], update);
@@ -192,7 +192,7 @@ public final class TypeManager {
             long lastScan = lastRepoScan.containsKey(repository) ?
                     ((Long) lastRepoScan.get(repository)).longValue() : 0;
             if (repository.lastModified() != lastScan) {
-                lastRepoScan.put(repository, new Long(repository.lastModified()));
+                lastRepoScan.put(repository, Long.valueOf(repository.lastModified()));
                 checkRepository(repository, false);
             }
         }
@@ -210,7 +210,7 @@ public final class TypeManager {
 
             if (debug) {
                 System.err.println("CHECK: " + proto.getName() + " in " + Thread.currentThread());
-            }            
+            }
 
             // update prototype's type mapping
             DbMapping dbmap = proto.getDbMapping();
