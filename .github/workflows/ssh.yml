@@ -1,0 +1,27 @@
+name: Set up SSH agent
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        required: true
+        type: string
+      known-hosts:
+        required: true
+        type: string
+
+env:
+  SSH_AUTH_SOCK: /tmp/ssh-agent.sock
+
+jobs:
+  ssh-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH agent
+        run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< '${{ secrets.SSH_PRIVATE_KEY }}'
+          mkdir -p ~/.ssh
+          echo '${{ inputs.config }}' > ~/.ssh/config
+          echo '${{ inputs.known-hosts }}' > ~/.ssh/known_hosts
