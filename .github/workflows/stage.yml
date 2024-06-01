@@ -34,7 +34,7 @@ jobs:
 
       - name: Publish to staging server
         run: |
-          rsync ./build/install/helma/ antville.dev:./ \
+          rsync ./build/install/helma/ staging-server:./ \
             --verbose --archive --delete --compress \
             --filter '+ /bin' \
             --filter '+ /extras' \
@@ -45,4 +45,4 @@ jobs:
             --filter '- /*'
 
       - name: Restart Helma
-        run: ssh antville.dev restart
+        run: ssh staging-server restart
