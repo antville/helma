@@ -1,0 +1,42 @@
+name: SSH setup
+description: Set up the SSH agent
+
+inputs:
+  config:
+    description: The SSH configuration
+    required: true
+  key:
+    description: The private SSH key
+    required: true
+  known-hosts:
+    description: The list of known hosts
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Configure SSH
+      shell: sh
+      env:
+        CONFIG: ${{ inputs.config }}
+        KNOWN_HOSTS: ${{ inputs.known-hosts }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "${CONFIG}" > ~/.ssh/config
+        echo "${KNOWN_HOSTS}" > ~/.ssh/known_hosts
+
+    - name: Start SSH agent
+      shell: bash
+      env:
+        SOCKET: /tmp/ssh-agent.sock
+      run: |
+        echo "SSH_AUTH_SOCK=${SOCKET}" >> $GITHUB_ENV
+        ssh-agent -a ${SOCKET} > /dev/null
+
+    - name: Add SSH key
+      shell: bash
+      env:
+        KEY: ${{ inputs.key }}
+      run: |
+        ssh-add - <<< "${KEY}"
