@@ -19,7 +19,7 @@ package helma.framework;
 import helma.objectmodel.db.Transactor;
 import helma.scripting.ScriptingException;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.PrintWriter;

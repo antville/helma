@@ -19,11 +19,13 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.xmlrpc.XmlRpcHandler;
+
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee9.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee9.servlet.ServletHolder;
+import org.eclipse.jetty.util.resource.ResourceFactory;
 
 import helma.framework.core.Application;
 import helma.framework.repository.FileRepository;
@@ -481,23 +483,29 @@ public class ApplicationManager implements XmlRpcHandler {
 
                     // if there is a static direcory specified, mount it
                     if (this.staticDir != null) {
+                        String staticPath = getAbsoluteFile(this.staticDir).getCanonicalPath();
 
-                        File staticContent = getAbsoluteFile(this.staticDir);
-
-                        getLogger().info("Serving static from " + staticContent.getPath());
+                        getLogger().info("Serving static from " + staticPath);
                         getLogger().info("Mounting static at " + staticMountpoint);
 
                         ResourceHandler rhandler = new ResourceHandler();
-                        rhandler.setResourceBase(staticContent.getPath());
+                        rhandler.setBaseResource(ResourceFactory.of(rhandler).newResource(staticPath));
                         rhandler.setWelcomeFiles(staticHome);
 
-                        staticContext = ApplicationManager.this.context.addContext(staticMountpoint, ""); //$NON-NLS-1$
+                        ContextHandler staticContext = new ContextHandler();
+                        staticContext.setContextPath(staticMountpoint);
+                        // FIXME: Causing java.lang.IllegalArgumentException: Resource String is invalid
+                        //staticContext.setBaseResourceAsString("");
                         staticContext.setHandler(rhandler);
 
+                        ApplicationManager.this.context.addHandler(staticContext);
                         staticContext.start();
                     }
 
-                    appContext = new ServletContextHandler(context, pathPattern, true, true);
+                    appContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
+                    appContext.setContextPath(pathPattern);
+                    context.addHandler(appContext);
+
                     Class servletClass = servletClassName == null ?
                             EmbeddedServletClient.class : Class.forName(servletClassName);
                     ServletHolder holder = new ServletHolder(servletClass);
@@ -529,15 +537,16 @@ public class ApplicationManager implements XmlRpcHandler {
                     }
 
                     if (protectedStaticDir != null) {
-                        File protectedContent = getAbsoluteFile(protectedStaticDir);
-                        appContext.setResourceBase(protectedContent.getPath());
-                        getLogger().info("Serving protected static from " +
-                                       protectedContent.getPath());
+                        String protectedContent = getAbsoluteFile(protectedStaticDir).getCanonicalPath();
+                        appContext.setBaseResourceAsString(protectedContent);
+                        getLogger().info("Serving protected static from " + protectedContent);
                     }
 
                     // Remap the context paths and start
                     ApplicationManager.this.context.mapContexts();
-                    this.appContext.start();
+                    // FIXME: Causing java.lang.IllegalStateException: Shared scheduler not started
+                    // Is it necessary, anway?
+                    //this.appContext.start();
                 }
 
                 // register as XML-RPC handler
@@ -556,7 +565,9 @@ public class ApplicationManager implements XmlRpcHandler {
                 // unbind from Jetty HTTP server
                 if (ApplicationManager.this.jetty != null) {
                     if (this.appContext != null) {
-                        ApplicationManager.this.context.removeHandler(this.appContext);
+                        // FIXME: Causing incompatible types: ServletContextHandler cannot be converted to Handler
+                        // Is it necessary, anyway?
+                        //ApplicationManager.this.context.removeHandler(this.appContext);
                         this.appContext.stop();
                         this.appContext.destroy();
                         this.appContext = null;
