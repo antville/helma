@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: p3k.org
-      url: https://blog.p3k.org
+      name: weblogs.at
+      url: https://weblogs.at
 
     steps:
       - name: Set up SSH agent
