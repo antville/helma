@@ -33,10 +33,12 @@ Helma is built with [Gradle](https://gradle.org), the build task depends on the 
 
 ### Additional Prerequisites
 
-* [Rsync](https://rsync.samba.org) version ≥ 3.1.0
 * [Node.js](https://nodejs.org) LTS version
+* [Rsync](https://rsync.samba.org) version ≥ 3.1.0
 
-Clone this repository to your machine and start the build process with `./gradlew install`. The build script is going to ask you if you want to update the installation, enter `yes` or `no`.
+Clone this repository to your machine and run Helma with `./gradlew run`.
+
+To update the installation from a build, run `./gradlew update` and enter `yes` at the prompt.
 
 > ⚠️    
 > Please be aware that this step is going to overwrite files in the installation directory – escpecially at a later time when there might be substantial changes. Should this happen by accident you find the previous installation in the `backups` directory.
