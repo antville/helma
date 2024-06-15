@@ -10,7 +10,7 @@ processResources.enabled = false
 processTestResources.enabled = false
 test.enabled = false
 
-task deps(type: Copy) {
+tasks.register('deps', Copy) {
 	from sourceSets.main.runtimeClasspath
 	into 'code'
 }
