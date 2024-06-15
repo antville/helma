@@ -1,10 +1,6 @@
 name: Deploy (Production)
 
-on:
-  workflow_dispatch: {}
-  push:
-    branches:
-      - helma-🐜
+on: workflow_dispatch
 
 jobs:
   deploy:
