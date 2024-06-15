@@ -155,26 +155,21 @@ installDist {
 }
 
 task processSource(type: Sync) {
-  def date = new Date().format("d MMM yyyy")
   def gitOutput = new ByteArrayOutputStream()
 
   exec {
-    commandLine 'git', 'describe'
+    commandLine 'git', 'rev-parse', '--short', 'HEAD'
     standardOutput = gitOutput
     errorOutput = new ByteArrayOutputStream()
     ignoreExitValue = true
   }
 
-  def description = date
-  def tag = gitOutput.toString().trim()
-
-  // TODO: Implement extended description in Java code
-  if (tag) description = "$tag; $description"
-
   from 'src'
 
   filter {
-    line -> line.replaceAll('__builddate__', date)
+    line -> line
+      .replaceAll('__builddate__', new Date().format("d MMM yyyy"))
+      .replaceAll('__commithash__', gitOutput.toString().trim())
   } into "${project.buildDir}/src"
 }
 

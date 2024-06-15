@@ -36,7 +36,13 @@ import helma.util.ResourceProperties;
  */
 public class Server implements Runnable {
     // version string
-    public static final String version = "🐜 (__builddate__)";
+    public static final String version = "🐜";
+
+    // build date
+    public static final String buildDate = "__builddate__";
+
+    // commit hash
+    public static final String commitHash = "__commithash__";
 
     // static server instance
     private static Server server;
