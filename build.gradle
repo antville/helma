@@ -290,3 +290,11 @@ task commandLine(type: JavaExec) {
   mainClass = 'helma.main.launcher.Commandline'
   args '-h', projectDir, function
 }
+
+tasks.register('debug', JavaExec) {
+  group = 'application'
+  main = 'helma.main.Server'
+  classpath = sourceSets.main.runtimeClasspath
+  jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005']
+  classpath += fileTree(dir: 'lib/ext', include: '*.jar')
+}
