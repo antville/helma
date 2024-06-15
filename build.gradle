@@ -157,7 +157,7 @@ run {
 }
 
 task processSource(type: Sync) {
-  def date = new Date().format("MMMM dd, yyyy")
+  def date = new Date().format("d MMMM yyyy")
   def gitOutput = new ByteArrayOutputStream()
 
   exec {
