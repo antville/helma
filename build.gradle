@@ -17,10 +17,8 @@ def textFiles = ['**/*.hac', '**/.html', '**/*.js', '**/*.md', '**/*.properties'
 allprojects {
   apply plugin: 'java'
 
-  compileJava {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-  }
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
 
   repositories {
     mavenCentral()
