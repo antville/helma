@@ -17,17 +17,15 @@ def textFiles = ['**/*.hac', '**/.html', '**/*.js', '**/*.md', '**/*.properties'
 allprojects {
   apply plugin: 'java'
 
-  compileJava {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-  }
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
 
   repositories {
     mavenCentral()
   }
 }
 
-version = new Date().format("yyyyMMdd")
+version = new Date().format("yy.M.d")
 
 tasks.build.dependsOn javadoc, 'jsdoc', 'generateLicenseReport'
 tasks.compileJava.dependsOn 'processSource'
@@ -58,7 +56,7 @@ configurations {
 }
 
 dependencies {
-  implementation 'com.google.code.gson:gson:2.10.1'
+  implementation 'com.google.code.gson:gson:2.11.0'
   implementation 'commons-codec:commons-codec:1.17.0'
   implementation 'org.apache.commons:commons-fileupload2-core:2.0.0-M2'
   implementation 'org.apache.commons:commons-fileupload2-jakarta:2.0.0-M1'
@@ -77,6 +75,37 @@ dependencies {
 
 def rhinoJar = configurations.library.files.find { jar ->
   jar.name.startsWith('rhino')
+}
+
+run {
+  jvmArgs jettyLogLevel, suppressMacosDockIcon
+  classpath += fileTree(dir: 'lib/ext', include: '*.jar')
+}
+
+application {
+  mainClass = 'helma.main.Server'
+
+  applicationDistribution.from(projectDir) {
+    include 'modules/**'
+    include 'LICENSE.md'
+    include 'README.md'
+    include 'start.*'
+  }
+
+  applicationDistribution.from(javadoc.destinationDir) {
+    include '**'
+    into 'docs/javadoc'
+  }
+
+  applicationDistribution.from("${project.buildDir}/docs/jsdoc") {
+    include '**'
+    into 'docs/jsdoc'
+  }
+
+  applicationDistribution.from("${project.buildDir}/reports/dependency-license") {
+    include '**'
+    into 'licenses'
+  }
 }
 
 startScripts {
@@ -104,30 +133,6 @@ distributions {
   }
 }
 
-application {
-  applicationDistribution.from(projectDir) {
-    include 'modules/**'
-    include 'LICENSE.md'
-    include 'README.md'
-    include 'start.*'
-  }
-
-  applicationDistribution.from(javadoc.destinationDir) {
-    include '**'
-    into 'docs/javadoc'
-  }
-
-  applicationDistribution.from("${project.buildDir}/docs/jsdoc") {
-    include '**'
-    into 'docs/jsdoc'
-  }
-
-  applicationDistribution.from("${project.buildDir}/reports/dependency-license") {
-    include '**'
-    into 'licenses'
-  }
-}
-
 distTar {
   dependsOn ':generateLicenseReport', ':javadoc', ':jsdoc'
 
@@ -148,19 +153,10 @@ distZip {
 
 installDist {
   dependsOn build
-
-  if (!System.getenv('CI')) {
-    finalizedBy 'update'
-  }
-}
-
-run {
-  classpath = files('launcher.jar')
-  jvmArgs jettyLogLevel, suppressMacosDockIcon
 }
 
 task processSource(type: Sync) {
-  def date = new Date().format("MMMM dd, yyyy")
+  def date = new Date().format("d MMMM yyyy")
   def gitOutput = new ByteArrayOutputStream()
 
   exec {
@@ -184,6 +180,8 @@ task processSource(type: Sync) {
 }
 
 task update {
+  dependsOn installDist
+
   def rsyncArgs = ['--archive', '--filter', '- backups']
 
   def confirm = {
@@ -292,4 +290,12 @@ task commandLine(type: JavaExec) {
   classpath = files('launcher.jar')
   mainClass = 'helma.main.launcher.Commandline'
   args '-h', projectDir, function
+}
+
+tasks.register('debug', JavaExec) {
+  group = 'application'
+  main = 'helma.main.Server'
+  classpath = sourceSets.main.runtimeClasspath
+  jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005']
+  classpath += fileTree(dir: 'lib/ext', include: '*.jar')
 }
