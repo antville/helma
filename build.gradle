@@ -25,7 +25,7 @@ allprojects {
   }
 }
 
-version = new Date().format("yyyyMMdd")
+version = new Date().format("yy.M.d")
 
 tasks.build.dependsOn javadoc, 'jsdoc', 'generateLicenseReport'
 tasks.compileJava.dependsOn 'processSource'
