@@ -102,6 +102,8 @@ distributions {
 }
 
 application {
+  mainClass = 'helma.main.Server'
+
   applicationDistribution.from(projectDir) {
     include 'modules/**'
     include 'LICENSE.md'
@@ -152,8 +154,8 @@ installDist {
 }
 
 run {
-  classpath = files('launcher.jar')
   jvmArgs jettyLogLevel, suppressMacosDockIcon
+  classpath += fileTree(dir: 'lib/ext', include: '*.jar')
 }
 
 task processSource(type: Sync) {
