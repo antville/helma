@@ -152,10 +152,6 @@ distZip {
 
 installDist {
   dependsOn build
-
-  if (!System.getenv('CI')) {
-    finalizedBy 'update'
-  }
 }
 
 task processSource(type: Sync) {
@@ -183,6 +179,8 @@ task processSource(type: Sync) {
 }
 
 task update {
+  dependsOn installDist
+
   def rsyncArgs = ['--archive', '--filter', '- backups']
 
   def confirm = {
