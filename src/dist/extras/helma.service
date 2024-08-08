@@ -18,7 +18,7 @@ ExecStart = /usr/bin/java -server \
   -jar launcher.jar \
   -w 8080 -x 8081
 
-ExecReload = touch apps.properties && touch server.properties
+ExecReload = /bin/sh -c 'touch apps.properties && touch server.properties'
 ExecStop = /bin/kill -15 $MAINPID
 
 [Install]
