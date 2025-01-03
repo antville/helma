@@ -3,6 +3,7 @@ name: Run Renovate
 on:
   schedule:
     - cron: "13 * * * *"
+  workflow_dispatch:
 
 jobs:
   renovate:
