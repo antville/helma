@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: antville
 
     env:
       GH_TOKEN: ${{ github.token }}
@@ -19,27 +19,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Build with Gradle
         run: ./gradlew assembleDist
 
       - name: Create release
+        # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
-          gh release create "$GITHUB_REF_NAME" \
+          echo gh release create "$GITHUB_REF_NAME" \
             --repo "$GITHUB_REPOSITORY" \
             --title "$(date +'%d %b %Y')" \
             --generate-notes
 
       - name: Upload assets
+        # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
-          gh release upload "$GITHUB_REF_NAME" \
+          echo gh release upload "$GITHUB_REF_NAME" \
             build/distributions/helma-*.* \
             --clobber
