@@ -13,12 +13,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run Renovate
-        run: npx renovate
+        # See <https://docs.renovatebot.com/troubleshooting/#log-debug-levels>
+        # debug | info | warn | error | fatal
+        run: LOG_LEVEL=info npx renovate
         env:
           # Renovate is using this token to retrieve release notes
           GITHUB_COM_TOKEN: ${{ secrets.renovate_github_com_token }}
-          # See <https://docs.renovatebot.com/troubleshooting/#log-debug-levels>
-          LOG_LEVEL: info # debug | info | warn | error | fatal
           # Autodiscover is better suited for an extra repo running Renovate on all desired repos
           #RENOVATE_AUTODISCOVER: 'true'
           RENOVATE_CONFIG_FILE: renovate.json
