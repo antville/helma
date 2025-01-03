@@ -22,7 +22,7 @@ jobs:
           RENOVATE_CONFIG_FILE: renovate.json
           RENOVATE_ENDPOINT: ${{ github.api_url }}
           RENOVATE_GIT_AUTHOR: Renovate Bot <mail+renovate@antville.org>
-          #RENOVATE_GIT_IGNORED_AUTHORS: 
+          #RENOVATE_GIT_IGNORED_AUTHORS:
           #  - 29139614+renovate[bot]@users.noreply.github.com
           RENOVATE_IGNORE_PR_AUTHOR: 'true'
           RENOVATE_LOG_FILE: renovate-log.ndjson
@@ -33,7 +33,8 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.renovate_token }}
 
       - name: Save log file
-        uses: actions/upload-artifact@v4
+        # FIXME: v4 of this action causes an error on Forgejo (“You must configure a GitHub token”)
+        uses: actions/upload-artifact@v3
         with:
           name: renovate-log.ndjson
           path: renovate-log.ndjson
