@@ -36,7 +36,7 @@ import helma.util.ResourceProperties;
  */
 public class Server implements Runnable {
     // version string
-    public static final String version = "🐜";
+    public static final String version = "__version__";
 
     // build date
     public static final String buildDate = "__builddate__";

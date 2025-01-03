@@ -172,6 +172,7 @@ tasks.register('processSource', Sync) {
     line -> line
       .replaceAll('__builddate__', new Date().format("d MMM yyyy"))
       .replaceAll('__commithash__', gitOutput.toString().trim())
+      .replaceAll('__version__', version)
   } into "${project.buildDir}/src"
 }
 
