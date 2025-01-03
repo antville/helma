@@ -23,10 +23,6 @@ jobs:
           #RENOVATE_AUTODISCOVER: 'true'
           RENOVATE_CONFIG_FILE: renovate.json
           RENOVATE_ENDPOINT: ${{ github.api_url }}
-          RENOVATE_GIT_AUTHOR: Renovate Bot <mail+renovate@antville.org>
-          #RENOVATE_GIT_IGNORED_AUTHORS:
-          #  - 29139614+renovate[bot]@users.noreply.github.com
-          RENOVATE_IGNORE_PR_AUTHOR: 'true'
           RENOVATE_LOG_FILE: renovate-log.ndjson
           RENOVATE_LOG_FILE_LEVEL: debug
           RENOVATE_PLATFORM: gitea
