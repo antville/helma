@@ -33,7 +33,7 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.renovate_token }}
 
       - name: Save log file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: renovate-log.ndjson
           path: renovate-log.ndjson
