@@ -149,12 +149,13 @@ public class Server implements Runnable {
       * check if we are running on a Java 2 VM - otherwise exit with an error message
       */
     public static void checkJavaVersion() {
-        String javaVersion = System.getProperty("java.version");
+        String javaVersion = System.getProperty("java.version", "0");
+        int majorVersion = Integer.parseInt(javaVersion.split("\\.")[0]);
 
-        if ((javaVersion == null) || !javaVersion.startsWith("11")) {
+        if (majorVersion < 11) {
             System.err.println("This version of Helma requires Java 11 or greater.");
 
-            if (javaVersion == null) { // don't think this will ever happen, but you never know
+            if (majorVersion == 0) { // don't think this will ever happen, but you never know
                 System.err.println("Your Java Runtime did not provide a version number. Please update to a more recent version.");
             } else {
                 System.err.println("Your Java Runtime is version " + javaVersion +
