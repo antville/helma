@@ -13,7 +13,7 @@ jobs:
     runs-on: antville
 
     env:
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       LC_TIME: en_US.UTF-8
       TODAY: $(date +'%d %b %Y')
 
@@ -30,22 +30,19 @@ jobs:
           url: https://code.host.antville.org
           token: ${{ github.token }}
           title: ${{ env.TODAY }}
-          #tag: $(date +'%Y.%m.%d')
           release-dir: build/distributions
           release-notes-assistant: true
           verbose: true
 
       - name: Create release at GitHub
-        # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
-          echo gh release create "$GITHUB_REF_NAME" \
+          gh release create "$GITHUB_REF_NAME" \
             --repo "$GITHUB_REPOSITORY" \
-            --title "$(date +'%d %b %Y')" \
+            --title "${{ env.TODAY }}" \
             --generate-notes
 
       - name: Upload release assets to GitHub
-        # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
-          echo gh release upload "$GITHUB_REF_NAME" \
-            build/distributions/helma-*.* \
+          gh release upload "$GITHUB_REF_NAME" build/distributions/helma-*.* \
+            --repo "$GITHUB_REPOSITORY" \
             --clobber
