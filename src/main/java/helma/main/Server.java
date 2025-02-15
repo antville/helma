@@ -36,7 +36,7 @@ import helma.util.ResourceProperties;
  */
 public class Server implements Runnable {
     // version string
-    public static final String version = "🐜";
+    public static final String version = "__version__";
 
     // build date
     public static final String buildDate = "__builddate__";
@@ -149,17 +149,13 @@ public class Server implements Runnable {
       * check if we are running on a Java 2 VM - otherwise exit with an error message
       */
     public static void checkJavaVersion() {
-        String javaVersion = System.getProperty("java.version");
+        String javaVersion = System.getProperty("java.version", "0");
+        int majorVersion = Integer.parseInt(javaVersion.split("\\.")[0]);
 
-        if ((javaVersion == null) || javaVersion.startsWith("1.5")
-                                  || javaVersion.startsWith("1.4")
-                                  || javaVersion.startsWith("1.3")
-                                  || javaVersion.startsWith("1.2")
-                                  || javaVersion.startsWith("1.1")
-                                  || javaVersion.startsWith("1.0")) {
-            System.err.println("This version of Helma requires Java 1.6 or greater.");
+        if (majorVersion < 11) {
+            System.err.println("This version of Helma requires Java 11 or greater.");
 
-            if (javaVersion == null) { // don't think this will ever happen, but you never know
+            if (majorVersion == 0) { // don't think this will ever happen, but you never know
                 System.err.println("Your Java Runtime did not provide a version number. Please update to a more recent version.");
             } else {
                 System.err.println("Your Java Runtime is version " + javaVersion +
