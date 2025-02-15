@@ -1,9 +1,9 @@
 name: Release
 
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    tags: '2*'
 
 permissions:
   contents: write
@@ -15,6 +15,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       LC_TIME: en_US.UTF-8
+      TODAY: $(date +'%d %b %Y')
 
     steps:
       - uses: actions/checkout@v4
@@ -23,6 +24,18 @@ jobs:
         run: ./gradlew assembleDist
 
       - name: Create release
+        uses: actions/forgejo-release@v2
+        with:
+          direction: upload
+          url: https://code.host.antville.org
+          token: ${{ github.token }}
+          title: ${{ env.TODAY }}
+          #tag: $(date +'%Y.%m.%d')
+          release-dir: build/distributions
+          release-notes-assistant: true
+          verbose: true
+
+      - name: Create release at GitHub
         # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
           echo gh release create "$GITHUB_REF_NAME" \
@@ -30,7 +43,7 @@ jobs:
             --title "$(date +'%d %b %Y')" \
             --generate-notes
 
-      - name: Upload assets
+      - name: Upload release assets to GitHub
         # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
           echo gh release upload "$GITHUB_REF_NAME" \
