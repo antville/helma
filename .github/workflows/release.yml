@@ -3,8 +3,7 @@ name: Release
 on:
   workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    tags: '2*'
 
 permissions:
   contents: write
@@ -16,6 +15,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       LC_TIME: en_US.UTF-8
+      TODAY: $(date +'%d %b %Y')
 
     steps:
       - uses: actions/checkout@v4
@@ -28,6 +28,8 @@ jobs:
           direction: upload
           url: https://code.host.antville.org
           token: ${{ github.token }}
+          title: ${{ env.TODAY }}
+          #tag: $(date +'%Y.%m.%d')
           release-dir: build/distributions
           release-notes-assistant: true
           verbose: true
