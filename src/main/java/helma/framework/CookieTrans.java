@@ -17,7 +17,7 @@
 package helma.framework;
 
 import java.io.Serializable;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 /**
  *  Cookie Transmitter. A simple, serializable representation

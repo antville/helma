@@ -16,11 +16,12 @@
 
 package helma.main;
 
-
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.URLResourceFactory;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
 import java.net.URL;
@@ -36,18 +37,20 @@ public class JettyServer {
     public static JettyServer init(Server server, ServerConfig config) throws IOException {
         File configFile = config.getConfigFile();
         if (configFile != null && configFile.exists()) {
-            return new JettyServer(configFile.toURI().toURL());
+            URLResourceFactory resourceFactory = new URLResourceFactory();
+            Resource resource = resourceFactory.newResource(configFile.toURI());
+            return new JettyServer(resource);
         } else if (config.hasWebsrvPort()) {
             return new JettyServer(config.getWebsrvPort(), server);
         }
         return null;
     }
 
-    private JettyServer(URL url) throws IOException {
+    private JettyServer(Resource resource) throws IOException {
         http = new org.eclipse.jetty.server.Server();
 
         try {
-            XmlConfiguration config = new XmlConfiguration(url);
+            XmlConfiguration config = new XmlConfiguration(resource);
             config.configure(http);
 
         } catch (IOException e) {
@@ -59,7 +62,7 @@ public class JettyServer {
 
     private JettyServer(InetSocketAddress webPort, Server server)
             throws IOException {
-    	
+
         http = new org.eclipse.jetty.server.Server();
 
         // start embedded web server if port is specified
@@ -73,7 +76,6 @@ public class JettyServer {
             connector.setHost(webPort.getAddress().getHostAddress());
             connector.setPort(webPort.getPort());
             connector.setIdleTimeout(30000);
-            connector.setSoLingerTime(-1);
             connector.setAcceptorPriorityDelta(0);
             connector.setAcceptQueueSize(0);
 
@@ -100,12 +102,13 @@ public class JettyServer {
     }
 
     private void openListeners() throws IOException {
-        // opening the listener here allows us to run on priviledged port 80 under jsvc
+        // opening the listener here allows us to run on privileged port 80 under jsvc
         // even as non-root user, because init() is called with root privileges
         // while start() will be called with the user we will actually run as
-        Connector[] connectors = http.getConnectors();
-        for (int i = 0; i < connectors.length; i++) {
-            ((ServerConnector) connectors[i]).open();
+        for (var connector : http.getConnectors()) {
+            if (connector instanceof ServerConnector) {
+                ((ServerConnector) connector).open();
+            }
         }
     }
 }

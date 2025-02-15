@@ -19,7 +19,7 @@ package helma.servlet;
 import helma.framework.*;
 import helma.framework.core.Application;
 import helma.main.*;
-import javax.servlet.*;
+import jakarta.servlet.*;
 
 /**
  *  Servlet client that runs a Helma application for the embedded
