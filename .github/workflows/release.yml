@@ -35,7 +35,7 @@ jobs:
           release-notes-assistant: true
           verbose: true
 
-      - name: Create release
+      - name: Create release at GitHub
         # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
           echo gh release create "$GITHUB_REF_NAME" \
@@ -43,7 +43,7 @@ jobs:
             --title "$(date +'%d %b %Y')" \
             --generate-notes
 
-      - name: Upload assets
+      - name: Upload release assets to GitHub
         # FIXME: Currently only outputs gh command; adapt for Forgejo
         run: |
           echo gh release upload "$GITHUB_REF_NAME" \
