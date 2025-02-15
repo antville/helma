@@ -23,7 +23,8 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew assembleDist
 
-      - uses: actions/forgejo-release@v2
+      - name: Create release
+        uses: actions/forgejo-release@v2
         with:
           direction: upload
           url: https://code.host.antville.org
