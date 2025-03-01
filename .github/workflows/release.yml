@@ -9,16 +9,27 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  release:
     runs-on: antville
 
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       LC_TIME: en_US.UTF-8
-      TODAY: $(date +'%d %b %Y')
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create release notes
+        id: create_release_notes
+        run: |
+          release_notes=$(npx git-cliff@latest --latest)
+          # Write the release notes as a heredoc to the workflow output
+          # ⚠️ No white space around `<<` is crucial!
+          echo "release_notes<<.eot0x03" >> $GITHUB_OUTPUT
+          echo "$release_notes" >> $GITHUB_OUTPUT
+          echo ".eot0x03" >> $GITHUB_OUTPUT
 
       - name: Build with Gradle
         run: ./gradlew assembleDist
@@ -29,17 +40,17 @@ jobs:
           direction: upload
           url: https://code.host.antville.org
           token: ${{ github.token }}
-          title: ${{ env.TODAY }}
+          title: Helma ${{ github.ref_name }}
           release-dir: build/distributions
-          release-notes-assistant: true
+          release-notes: ${{ steps.create_release_notes.outputs.release_notes }}
           verbose: true
 
       - name: Create release at GitHub
         run: |
           gh release create "$GITHUB_REF_NAME" \
             --repo "$GITHUB_REPOSITORY" \
-            --title "${{ env.TODAY }}" \
-            --generate-notes
+            --title "Helma ${{ github.ref_name }}" \
+            --notes "${{ steps.create_release_notes.outputs.release_notes }}"
 
       - name: Upload release assets to GitHub
         run: |
