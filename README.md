@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-- Make sure you have Java 11 or higher installed
+- Make sure you have Java 17 or higher installed
 - Download and unpack the [latest release](https://code.host.antville.org/antville/helma/releases)
 - Invoke `./bin/helma`, resp. `./bin/helma.bat`, depending on your platform
 - Direct your web browser to <http://localhost:8080>

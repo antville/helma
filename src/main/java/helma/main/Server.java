@@ -21,6 +21,7 @@ import helma.framework.repository.FileResource;
 import helma.framework.core.*;
 import helma.objectmodel.db.DbSource;
 import helma.util.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlrpc.*;
@@ -152,8 +153,8 @@ public class Server implements Runnable {
         String javaVersion = System.getProperty("java.version", "0");
         int majorVersion = Integer.parseInt(javaVersion.split("\\.")[0]);
 
-        if (majorVersion < 11) {
-            System.err.println("This version of Helma requires Java 11 or greater.");
+        if (majorVersion < 17) {
+            System.err.println("This version of Helma requires Java 17 or greater.");
 
             if (majorVersion == 0) { // don't think this will ever happen, but you never know
                 System.err.println("Your Java Runtime did not provide a version number. Please update to a more recent version.");
