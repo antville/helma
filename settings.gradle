@@ -16,3 +16,6 @@ project(':modules').projectDir = file('modules/helma')
 project(':jala').projectDir = file('modules/jala')
 project(':hopKit').projectDir = file('modules/jala/util/HopKit')
 project(':test').projectDir = file('modules/jala/util/Test')
+
+// Rename this project to prevent redundancy and renaming of main project (VSC does not care, though)
+project(':modules').name = 'modules'
