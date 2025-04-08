@@ -42,15 +42,6 @@ if (JavaVersion.current().isJava8Compatible()) {
   }
 }
 
-sourceSets {
-  main {
-    java {
-      // Sources in `src` will be available here after processing
-      srcDirs = ["$buildDir/src/main/java"]
-    }
-  }
-}
-
 configurations {
   // Wrapping implementation because it does not allow access to its files
   // (i.e. cannot be resolved)
