@@ -1,6 +1,12 @@
-.gradle
-.idea
-.settings
+.*
+
+.vscode/*
+!.vscode
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
 build
 
 /apps
@@ -15,8 +21,8 @@ build
 /static
 
 /*.properties
+!/gradle.properties
+
 /launcher.jar
 /passwd
 /start.*
-
-!/gradle.properties
