@@ -13,11 +13,10 @@
  * $Revision$
  * $Date$
  */
- 
+
 package helma.scripting.rhino.debug;
 
 import helma.framework.ResponseTrans;
-import helma.util.HtmlEncoder;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.debug.*;
 import java.util.ArrayList;
@@ -85,7 +84,7 @@ public class Tracer implements Debugger {
          * Called when execution is ready to start bytecode interpretation
          * for entered a particular function or script.
          */
-        public void onEnter(Context cx, Scriptable activation, 
+        public void onEnter(Context cx, Scriptable activation,
                             Scriptable thisObj, Object[] args) {
 
             time = System.currentTimeMillis();
@@ -128,7 +127,7 @@ public class Tracer implements Debugger {
             // Simplify Trace by dropping fast invocations. May be useful when looking
             // looking for bottlenecks, but not when trying to find out wtf is going on
             // if (time <= 1)
-            //     return;            
+            //     return;
             StringBuffer b = new StringBuffer("Trace: ");
             for (int i = 0; i < depth; i++)
                 b.append(".&nbsp;");

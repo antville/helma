@@ -140,8 +140,8 @@ public class NodeModulesProvider extends UrlModuleSourceProvider {
             // check if the there is a "package.json" file in the directory
             if (packageFile.exists() && packageFile.isFile()) {
                 // parse the JSON file
-                JsonObject json = new JsonParser()
-                        .parse(new String(Files.readAllBytes(packageFile.toPath()))).getAsJsonObject();
+                JsonObject json = JsonParser
+                        .parseString(new String(Files.readAllBytes(packageFile.toPath()))).getAsJsonObject();
                 // check if the JSON file defines a main JS file
                 if (json.has("main")) { //$NON-NLS-1$
                     // get the main JS file, removing the filename extension

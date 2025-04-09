@@ -29,8 +29,6 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
-import helma.util.ResourceProperties;
-
 /**
  * Helma server main class.
  */
@@ -67,14 +65,14 @@ public class Server implements Runnable {
     // explicitly listed hosts.
     public boolean paranoid;
     private ApplicationManager appManager;
-    private Vector extensions;
+    private Vector<HelmaExtension> extensions;
     private Thread mainThread;
 
     // configuration
     ServerConfig config;
 
     // map of server-wide database sources
-    Hashtable dbSources;
+    Hashtable<String, DbSource> dbSources;
 
     // the embedded web server
     // protected Serve websrv;
@@ -432,10 +430,10 @@ public class Server implements Runnable {
         // logger.debug("TimeZone = " +
         //                 TimeZone.getDefault().getDisplayName(Locale.getDefault()));
 
-        dbSources = new Hashtable();
+        dbSources = new Hashtable<String, DbSource>();
 
         // try to load the extensions
-        extensions = new Vector();
+        extensions = new Vector<HelmaExtension>();
         if (sysProps.getProperty("extensions") != null) {
             initExtensions();
         }
@@ -452,8 +450,8 @@ public class Server implements Runnable {
             String extClassName = tok.nextToken().trim();
 
             try {
-                Class extClass = Class.forName(extClassName);
-                HelmaExtension ext = (HelmaExtension) extClass.newInstance();
+                Class<? extends HelmaExtension> extClass = Class.forName(extClassName).asSubclass(HelmaExtension.class);
+                HelmaExtension ext = (HelmaExtension) extClass.getDeclaredConstructor().newInstance();
                 ext.init(this);
                 extensions.add(ext);
                 logger.info("Loaded: " + extClassName);
@@ -572,7 +570,9 @@ public class Server implements Runnable {
             String secManClass = sysProps.getProperty("securityManager");
 
             if (secManClass != null) {
+                @SuppressWarnings("removal")
                 SecurityManager secMan = (SecurityManager) Class.forName(secManClass)
+                                                                .getDeclaredConstructor()
                                                                 .newInstance();
 
                 System.setSecurityManager(secMan);
@@ -764,7 +764,7 @@ public class Server implements Runnable {
      *
      * @return ...
      */
-    public Vector getExtensions() {
+    public Vector<HelmaExtension> getExtensions() {
         return extensions;
     }
 
@@ -805,5 +805,3 @@ public class Server implements Runnable {
         return new InetSocketAddress(addr, port);
     }
 }
-
-

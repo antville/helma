@@ -32,11 +32,12 @@ public class SubnodeList implements Serializable {
 
     transient protected long lastSubnodeFetch = 0;
     transient protected long lastSubnodeChange = 0;
-    
+
 
     /**
      * Hide/disable zero argument constructor for subclasses
      */
+    @SuppressWarnings("unused")
     private SubnodeList()  {}
 
     /**

@@ -42,7 +42,7 @@ public class DemoExtension extends HelmaExtension {
     public void init(Server server) throws ConfigurationException {
         try {
             // just a demo with the server class itself (which is always there, obviously)
-            Class check = Class.forName("helma.main.Server");
+            Class.forName("helma.main.Server");
         } catch (ClassNotFoundException e) {
             throw new ConfigurationException("helma-library not present in classpath. make sure helma.jar is included. get it from http://www.helma.org/");
         }
@@ -87,7 +87,7 @@ public class DemoExtension extends HelmaExtension {
      *
      * @throws ConfigurationException ...
      */
-    public HashMap initScripting(Application app, ScriptingEngine engine)
+    public HashMap<String, Object> initScripting(Application app, ScriptingEngine engine)
                           throws ConfigurationException {
         if (!(engine instanceof RhinoEngine)) {
             throw new ConfigurationException("scripting engine " + engine.toString() +
@@ -98,7 +98,7 @@ public class DemoExtension extends HelmaExtension {
                      engine.toString());
 
         // initialize prototypes and global vars here
-        HashMap globals = new HashMap();
+        HashMap<String, Object> globals = new HashMap<>();
 
         globals.put("demo", Server.getServer());
 

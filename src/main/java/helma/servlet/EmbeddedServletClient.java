@@ -16,7 +16,6 @@
 
 package helma.servlet;
 
-import helma.framework.*;
 import helma.framework.core.Application;
 import helma.main.*;
 import javax.servlet.*;

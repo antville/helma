@@ -47,7 +47,7 @@ public final class Application implements Runnable {
     private String name;
 
     // application sources
-    ArrayList repositories;
+    ArrayList<Repository> repositories;
 
     // properties and db-properties
     ResourceProperties props;
@@ -96,15 +96,15 @@ public final class Application implements Runnable {
     /**
      * Collections for evaluator thread pooling
      */
-    protected Stack freeThreads;
-    protected Vector allThreads;
+    protected Stack<RequestEvaluator> freeThreads;
+    protected Vector<RequestEvaluator> allThreads;
     boolean running = false;
     boolean debug;
     long starttime;
-    Hashtable dbSources;
+    Hashtable<String, DbSource> dbSources;
 
     // map of app modules reflected at app.modules
-    Map modules;
+    Map<String, Object> modules;
 
     // internal worker thread for scheduler, session cleanup etc.
     Thread worker;
@@ -113,10 +113,10 @@ public final class Application implements Runnable {
     ThreadGroup threadgroup;
 
     // threadlocal variable for the current RequestEvaluator
-    ThreadLocal currentEvaluator = new ThreadLocal();
+    ThreadLocal<RequestEvaluator> currentEvaluator = new ThreadLocal<>();
 
     // Map of requesttrans -> active requestevaluators
-    Hashtable activeRequests;
+    Hashtable<RequestTrans, RequestEvaluator> activeRequests;
 
     String logDir;
 
@@ -165,15 +165,15 @@ public final class Application implements Runnable {
     private long lastPropertyRead = -1L;
 
     // the set of prototype/function pairs which are allowed to be called via XML-RPC
-    private HashSet xmlrpcAccess;
+    private HashSet<String> xmlrpcAccess;
 
     // the name under which this app serves XML-RPC requests. Defaults to the app name
     private String xmlrpcHandlerName;
 
     // the list of currently active cron jobs
-    Hashtable activeCronJobs = null;
+    Hashtable<String, CronRunner> activeCronJobs = null;
     // the list of custom cron jobs
-    Hashtable customCronJobs = null;
+    Hashtable<String, CronJob> customCronJobs = null;
 
     private ResourceComparator resourceComparator;
     private Resource currentCodeResource;
@@ -230,7 +230,7 @@ public final class Application implements Runnable {
 
         this.caseInsensitive = "true".equalsIgnoreCase(server.getAppsProperties(name).getProperty("caseInsensitive"));
 
-        this.repositories = new ArrayList();
+        this.repositories = new ArrayList<>();
         this.repositories.addAll(Arrays.asList(repositories));
         resourceComparator = new ResourceComparator(this);
 
@@ -304,7 +304,7 @@ public final class Application implements Runnable {
 
         updateProperties();
 
-        dbSources = new Hashtable();
+        dbSources = new Hashtable<>();
         modules = new SystemMap();
     }
 
@@ -366,7 +366,9 @@ public final class Application implements Runnable {
 
         private void initInternal()
                 throws DatabaseException, IllegalAccessException,
-                       InstantiationException, ClassNotFoundException {
+                       InstantiationException, ClassNotFoundException,
+                       IllegalArgumentException, InvocationTargetException,
+                       NoSuchMethodException, SecurityException {
             running = true;
             // create and init type mananger
             typemgr = new TypeManager(Application.this, ignoreDirs);
@@ -381,7 +383,7 @@ public final class Application implements Runnable {
             }
 
             if (Server.getServer() != null) {
-                Vector extensions = Server.getServer().getExtensions();
+                Vector<HelmaExtension> extensions = Server.getServer().getExtensions();
 
                 for (int i = 0; i < extensions.size(); i++) {
                     HelmaExtension ext = (HelmaExtension) extensions.get(i);
@@ -396,12 +398,12 @@ public final class Application implements Runnable {
             }
 
             // create and init evaluator/thread lists
-            freeThreads = new Stack();
-            allThreads = new Vector();
+            freeThreads = new Stack<>();
+            allThreads = new Vector<>();
 
-            activeRequests = new Hashtable();
-            activeCronJobs = new Hashtable();
-            customCronJobs = new Hashtable();
+            activeRequests = new Hashtable<>();
+            activeCronJobs = new Hashtable<>();
+            customCronJobs = new Hashtable<>();
 
             // create the skin manager
             skinmgr = new SkinManager(Application.this);
@@ -442,7 +444,13 @@ public final class Application implements Runnable {
             // create and init session manager
             String sessionMgrImpl = props.getProperty("sessionManagerImpl",
                                                       "helma.framework.core.SessionManager");
-            sessionMgr = (SessionManager) Class.forName(sessionMgrImpl).newInstance();
+            try {
+                sessionMgr = (SessionManager) Class.forName(sessionMgrImpl)
+                    .getDeclaredConstructor()
+                    .newInstance();
+            } catch (NoSuchMethodException | InvocationTargetException e) {
+                throw new RuntimeException("Error initializing session manager", e);
+            }
             logEvent("Using session manager class " + sessionMgrImpl);
             sessionMgr.init(Application.this);
 
@@ -879,7 +887,7 @@ public final class Application implements Runnable {
                 } else {
                     String rootClass = classMapping.getProperty("root");
                     Class c = typemgr.getClassLoader().loadClass(rootClass);
-                    rootObject = c.newInstance();
+                    rootObject = c.getDeclaredConstructor().newInstance();
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Error creating root object: " +

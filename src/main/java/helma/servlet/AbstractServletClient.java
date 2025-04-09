@@ -217,7 +217,7 @@ public abstract class AbstractServletClient extends HttpServlet {
             parseParameters(request, reqtrans, encoding);
 
             // read file uploads
-            List uploads = null;
+            List<FileItem> uploads = null;
             ServletRequestContext reqcx = new ServletRequestContext(request);
 
             if (ServletFileUpload.isMultipartContent(reqcx)) {
@@ -637,7 +637,7 @@ public abstract class AbstractServletClient extends HttpServlet {
      * Put name and value pair in map.  When name already exist, add value
      * to array of values.
      */
-    private static void putMapEntry(Map map, String name, String value) {
+    private static void putMapEntry(Map<String, String[]> map, String name, String value) {
         String[] newValues = null;
         String[] oldValues = (String[]) map.get(name);
 
@@ -653,9 +653,9 @@ public abstract class AbstractServletClient extends HttpServlet {
         map.put(name, newValues);
     }
 
-    protected List parseUploads(ServletRequestContext reqcx, RequestTrans reqtrans,
-                                final UploadStatus uploadStatus, String encoding)
-            throws FileUploadException, UnsupportedEncodingException {
+    protected List<FileItem> parseUploads(ServletRequestContext reqcx, RequestTrans reqtrans,
+                                    final UploadStatus uploadStatus, String encoding)
+                throws FileUploadException, UnsupportedEncodingException {
         // handle file upload
         DiskFileItemFactory factory = new DiskFileItemFactory();
         FileUpload upload = new FileUpload(factory);
@@ -672,8 +672,8 @@ public abstract class AbstractServletClient extends HttpServlet {
             });
         }
 
-        List uploads = upload.parseRequest(reqcx);
-        Iterator it = uploads.iterator();
+        List<FileItem> uploads = upload.parseRequest(reqcx);
+        Iterator<FileItem> it = uploads.iterator();
 
         while (it.hasNext()) {
             FileItem item = (FileItem) it.next();
@@ -705,7 +705,7 @@ public abstract class AbstractServletClient extends HttpServlet {
             return;
         }
 
-        HashMap parameters = new HashMap();
+        HashMap<String, String[]> parameters = new HashMap<>();
 
         // Parse any query string parameters from the request
         if (queryString != null) {
@@ -764,7 +764,7 @@ public abstract class AbstractServletClient extends HttpServlet {
      *
      * @exception UnsupportedEncodingException if the data is malformed
      */
-    public static void parseParameters(Map map, byte[] data, String encoding, boolean isPost)
+    public static void parseParameters(Map<String, String[]> map, byte[] data, String encoding, boolean isPost)
                                 throws UnsupportedEncodingException {
         if ((data != null) && (data.length > 0)) {
             int ix = 0;

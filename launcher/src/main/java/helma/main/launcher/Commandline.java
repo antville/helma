@@ -41,8 +41,8 @@ public class Commandline {
             ClassLoader loader = Main.createClassLoader(installDir);
 
             // get the main server class
-            Class clazz = loader.loadClass("helma.main.CommandlineRunner");
-            Class[] cargs = new Class[]{args.getClass()};
+            Class<?> clazz = loader.loadClass("helma.main.CommandlineRunner");
+            Class<?>[] cargs = new Class<?>[]{args.getClass()};
             Method main = clazz.getMethod("main", cargs);
             Object[] nargs = new Object[]{args};
 

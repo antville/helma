@@ -151,7 +151,9 @@ public class Profiler implements Debugger {
                     name.substring(prefixLength)
             };
             formatter.format("%1$7d ms %2$5d ms %3$6d    %4$s%n", args);
-            return formatter.toString();
+            String result = formatter.toString();
+            formatter.close();
+            return result;
         }
     }
 }

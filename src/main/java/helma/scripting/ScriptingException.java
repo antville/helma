@@ -23,12 +23,12 @@ import java.io.*;
 /**
  * The base class for wrapped exceptions thrown by invocation of the scripting engine.
  * If the wrapped exception is a RhinoException, the script stack trace will be
- * prepended to the actual java stack trace in stack dumps. 
+ * prepended to the actual java stack trace in stack dumps.
  */
 public class ScriptingException extends Exception {
 
     private static final long serialVersionUID = -7191341724784015678L;
-    
+
     String scriptStack = null;
 
     /**
@@ -48,14 +48,7 @@ public class ScriptingException extends Exception {
      */
     private void setScriptStack(Throwable cause) {
         if (cause instanceof RhinoException) {
-            FilenameFilter filter = new FilenameFilter() {
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".js") ||
-                           name.endsWith(".hac") ||
-                           name.endsWith(".hsp");
-                }
-            };
-            scriptStack = ((RhinoException) cause).getScriptStackTrace(filter);
+            scriptStack = ((RhinoException) cause).getScriptStackTrace();
         }
     }
 

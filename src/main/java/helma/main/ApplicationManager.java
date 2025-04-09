@@ -36,9 +36,9 @@ import helma.util.StringUtils;
  * This class is responsible for starting and stopping Helma applications.
  */
 public class ApplicationManager implements XmlRpcHandler {
-    private Hashtable descriptors;
-    private Hashtable applications;
-    private Hashtable xmlrpcHandlers;
+    private Hashtable<String, AppDescriptor> descriptors;
+    private Hashtable<String, Application> applications;
+    private Hashtable<String, Application> xmlrpcHandlers;
     private ResourceProperties props;
     private Server server;
     private long lastModified;
@@ -54,9 +54,9 @@ public class ApplicationManager implements XmlRpcHandler {
     public ApplicationManager(ResourceProperties props, Server server) {
         this.props = props;
         this.server = server;
-        this.descriptors = new Hashtable();
-        this.applications = new Hashtable();
-        this.xmlrpcHandlers = new Hashtable();
+        this.descriptors = new Hashtable<String, AppDescriptor>();
+        this.applications = new Hashtable<String, Application>();
+        this.xmlrpcHandlers = new Hashtable<String, Application>();
         this.lastModified = 0;
         this.jetty = server.jetty;
     }
@@ -68,7 +68,7 @@ public class ApplicationManager implements XmlRpcHandler {
     protected void checkForChanges() {
         if (this.props.lastModified() > this.lastModified && this.server.getApplicationsOption() == null) {
             try {
-                for (Enumeration e = this.props.keys(); e.hasMoreElements();) {
+                for (Enumeration<?> e = this.props.keys(); e.hasMoreElements();) {
                     String appName = (String) e.nextElement();
 
                     if ((appName.indexOf(".") == -1) && //$NON-NLS-1$
@@ -80,7 +80,7 @@ public class ApplicationManager implements XmlRpcHandler {
                 }
 
                 // then stop deleted ones
-                for (Enumeration e = this.descriptors.elements(); e.hasMoreElements();) {
+                for (Enumeration<AppDescriptor> e = this.descriptors.elements(); e.hasMoreElements();) {
                     AppDescriptor appDesc = (AppDescriptor) e.nextElement();
 
                     // check if application has been removed and should be stopped
@@ -146,7 +146,7 @@ public class ApplicationManager implements XmlRpcHandler {
                     desc.start();
                 }
             } else {
-                for (Enumeration e = this.props.keys(); e.hasMoreElements();) {
+                for (Enumeration<?> e = this.props.keys(); e.hasMoreElements();) {
                     String appName = (String) e.nextElement();
 
                     if (appName.indexOf(".") == -1) { //$NON-NLS-1$
@@ -162,7 +162,7 @@ public class ApplicationManager implements XmlRpcHandler {
                 }
             }
 
-            for (Enumeration e = this.descriptors.elements(); e.hasMoreElements();) {
+            for (Enumeration<AppDescriptor> e = this.descriptors.elements(); e.hasMoreElements();) {
                 AppDescriptor appDesc = (AppDescriptor) e.nextElement();
                 appDesc.bind();
             }
@@ -178,7 +178,7 @@ public class ApplicationManager implements XmlRpcHandler {
      *  Stop all running applications.
      */
     public void stopAll() {
-        for (Enumeration en = this.descriptors.elements(); en.hasMoreElements();) {
+        for (Enumeration<AppDescriptor> en = this.descriptors.elements(); en.hasMoreElements();) {
             try {
                 AppDescriptor appDesc = (AppDescriptor) en.nextElement();
 
@@ -206,7 +206,7 @@ public class ApplicationManager implements XmlRpcHandler {
     /**
      * Implements org.apache.xmlrpc.XmlRpcHandler.execute()
      */
-    public Object execute(String method, Vector params)
+    public Object execute(String method, @SuppressWarnings("rawtypes") Vector params)
                    throws Exception {
         int dot = method.indexOf("."); //$NON-NLS-1$
 
@@ -365,8 +365,8 @@ public class ApplicationManager implements XmlRpcHandler {
             this.ignoreDirs = conf.getProperty("ignore"); //$NON-NLS-1$
 
             // read and configure app repositories
-            ArrayList repositoryList = new ArrayList();
-            Class[] parameters = { String.class };
+            ArrayList<Repository> repositoryList = new ArrayList<>();
+            Class<?>[] parameters = { String.class };
             for (int i = 0; true; i++) {
                 String repositoryArgs = conf.getProperty("repository." + i); //$NON-NLS-1$
 
@@ -491,15 +491,16 @@ public class ApplicationManager implements XmlRpcHandler {
                         rhandler.setResourceBase(staticContent.getPath());
                         rhandler.setWelcomeFiles(staticHome);
 
-                        staticContext = ApplicationManager.this.context.addContext(staticMountpoint, ""); //$NON-NLS-1$
+                        staticContext = new ContextHandler(staticMountpoint);
+                        ApplicationManager.this.context.addHandler(staticContext);
                         staticContext.setHandler(rhandler);
 
                         staticContext.start();
                     }
 
                     appContext = new ServletContextHandler(context, pathPattern, true, true);
-                    Class servletClass = servletClassName == null ?
-                            EmbeddedServletClient.class : Class.forName(servletClassName);
+                    Class<? extends EmbeddedServletClient> servletClass = servletClassName == null ?
+                            EmbeddedServletClient.class : Class.forName(servletClassName).asSubclass(EmbeddedServletClient.class);
                     ServletHolder holder = new ServletHolder(servletClass);
                     holder.setInitParameter("application", appName);
                     appContext.addServlet(holder, "/*");

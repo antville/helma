@@ -39,7 +39,7 @@ import javax.mail.internet.MimeUtility;
  * A JavaScript wrapper around a JavaMail message class to send
  * mail via SMTP from Helma
  */
-public class MailObject extends ScriptableObject implements Serializable {
+public class MailObject extends ScriptableObject {
 
     private static final long serialVersionUID = -4834981850233741039L;
 

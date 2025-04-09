@@ -35,10 +35,10 @@ import java.util.ArrayList;
  *  be able to set up class and install paths.
  */
 public class Main {
-    private Class serverClass;
+    private Class<?> serverClass;
     private Object server;
 
-    private static final Class[] EMPTY_CLASS_ARRAY = new Class[0];
+    private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
     private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
 
     /**
@@ -60,7 +60,7 @@ public class Main {
             ClassLoader loader = createClassLoader(installDir);
             // get the main server class
             serverClass = loader.loadClass("helma.main.Server");
-            Class[] cargs = new Class[]{args.getClass()};
+            Class<?>[] cargs = new Class<?>[]{args.getClass()};
             Method loadServer = serverClass.getMethod("loadServer", cargs);
             Object[] nargs = new Object[]{args};
             // and invoke the static loadServer(String[]) method
@@ -111,7 +111,7 @@ public class Main {
         }
     }
 
-    static void addJars(ArrayList jarlist, File dir) throws MalformedURLException {
+    static void addJars(ArrayList<URL> jarlist, File dir) throws MalformedURLException {
         File[] files = dir.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 String n = name.toLowerCase();
@@ -143,7 +143,7 @@ public class Main {
 
         // set up the class path
         File libdir = new File(installDir, "lib");
-        ArrayList jarlist = new ArrayList();
+        ArrayList<URL> jarlist = new ArrayList<>();
 
         // add all jar files from the lib directory
         addJars(jarlist, libdir);
