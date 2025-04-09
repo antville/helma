@@ -115,13 +115,13 @@ public class Main {
         File[] files = dir.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 String n = name.toLowerCase();
-                return n.endsWith(".jar") || n.endsWith(".zip");  //$NON-NLS-1$//$NON-NLS-2$
+                return n.endsWith(".jar") || n.endsWith(".zip");
             }
         });
 
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
-                jarlist.add(new URL("file:" + files[i].getAbsolutePath())); //$NON-NLS-1$
+                jarlist.add(new URL("file:" + files[i].getAbsolutePath()));
             }
         }
     }
@@ -149,7 +149,7 @@ public class Main {
         addJars(jarlist, libdir);
 
         // add all jar files from the lib/ext directory
-        addJars(jarlist, new File(libdir, "ext")); //$NON-NLS-1$
+        addJars(jarlist, new File(libdir, "ext"));
 
         URL[] urls = new URL[jarlist.size()];
 
@@ -199,7 +199,7 @@ public class Main {
         // try to get Helma installation directory
         if (installDir == null) {
             URL launcherUrl = ClassLoader.getSystemClassLoader()
-                    .getResource("helma/main/launcher/Main.class"); //$NON-NLS-1$
+                    .getResource("helma/main/launcher/Main.class");
 
             // this is a  JAR URL of the form
             //    jar:<url>!/{entry}

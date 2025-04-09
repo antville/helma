@@ -19,16 +19,16 @@ public class JSONModuleSource extends ModuleSource {
     @Override
     public Reader getReader() {
         StringBuffer content = new StringBuffer();
-        content.append("module.exports = "); //$NON-NLS-1$
-        
+        content.append("module.exports = ");
+
         try {
             content.append(IOUtils.toString(this.getUri().toURL().openStream(), "UTF-8"));
         } catch (IOException e) {
-            content.append("null"); //$NON-NLS-1$
+            content.append("null");
         }
-        
-        content.append(";"); //$NON-NLS-1$
-        
+
+        content.append(";");
+
         return new StringReader(content.toString());
     }
 

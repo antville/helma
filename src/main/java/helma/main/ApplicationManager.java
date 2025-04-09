@@ -71,7 +71,7 @@ public class ApplicationManager implements XmlRpcHandler {
                 for (Enumeration<?> e = this.props.keys(); e.hasMoreElements();) {
                     String appName = (String) e.nextElement();
 
-                    if ((appName.indexOf(".") == -1) && //$NON-NLS-1$
+                    if ((appName.indexOf(".") == -1) &&
                             (this.applications.get(appName) == null)) {
                         AppDescriptor appDesc = new AppDescriptor(appName);
                         appDesc.start();
@@ -149,7 +149,7 @@ public class ApplicationManager implements XmlRpcHandler {
                 for (Enumeration<?> e = this.props.keys(); e.hasMoreElements();) {
                     String appName = (String) e.nextElement();
 
-                    if (appName.indexOf(".") == -1) { //$NON-NLS-1$
+                    if (appName.indexOf(".") == -1) {
                         String appValue = this.props.getProperty(appName);
 
                         if (appValue != null && appValue.length() > 0) {
@@ -208,7 +208,7 @@ public class ApplicationManager implements XmlRpcHandler {
      */
     public Object execute(String method, @SuppressWarnings("rawtypes") Vector params)
                    throws Exception {
-        int dot = method.indexOf("."); //$NON-NLS-1$
+        int dot = method.indexOf(".");
 
         if (dot == -1) {
             throw new Exception("Method name \"" + method +
@@ -224,7 +224,7 @@ public class ApplicationManager implements XmlRpcHandler {
         Application app = (Application) this.xmlrpcHandlers.get(handler);
 
         if (app == null) {
-            app = (Application) this.xmlrpcHandlers.get("*"); //$NON-NLS-1$
+            app = (Application) this.xmlrpcHandlers.get("*");
             // use the original method name, the handler is resolved within the app.
             method2 = method;
         }
@@ -239,32 +239,32 @@ public class ApplicationManager implements XmlRpcHandler {
     private String getMountpoint(String mountpoint) {
         mountpoint = mountpoint.trim();
 
-        if ("".equals(mountpoint)) { //$NON-NLS-1$
-            return "/"; //$NON-NLS-1$
-        } else if (!mountpoint.startsWith("/")) { //$NON-NLS-1$
-            return "/" + mountpoint; //$NON-NLS-1$
+        if ("".equals(mountpoint)) {
+            return "/";
+        } else if (!mountpoint.startsWith("/")) {
+            return "/" + mountpoint;
         }
 
         return mountpoint;
     }
 
     private String joinMountpoint(String prefix, String suffix) {
-        if (prefix.endsWith("/") || suffix.startsWith("/")) {  //$NON-NLS-1$//$NON-NLS-2$
+        if (prefix.endsWith("/") || suffix.startsWith("/")) {
             return prefix+suffix;
         }
-        return prefix+"/"+suffix; //$NON-NLS-1$
+        return prefix+"/"+suffix;
     }
 
     private String getPathPattern(String mountpoint) {
-        if (!mountpoint.startsWith("/")) { //$NON-NLS-1$
-            mountpoint = "/"+mountpoint; //$NON-NLS-1$
+        if (!mountpoint.startsWith("/")) {
+            mountpoint = "/"+mountpoint;
         }
 
-        if ("/".equals(mountpoint)) { //$NON-NLS-1$
-            return "/"; //$NON-NLS-1$
+        if ("/".equals(mountpoint)) {
+            return "/";
         }
 
-        if (mountpoint.endsWith("/")) { //$NON-NLS-1$
+        if (mountpoint.endsWith("/")) {
             return mountpoint.substring(0, mountpoint.length()-1);
         }
 
@@ -335,56 +335,56 @@ public class ApplicationManager implements XmlRpcHandler {
         AppDescriptor(String name) {
             ResourceProperties conf = ApplicationManager.this.props.getSubProperties(name + '.');
             this.appName = name;
-            this.mountpoint = getMountpoint(conf.getProperty("mountpoint", this.appName)); //$NON-NLS-1$
+            this.mountpoint = getMountpoint(conf.getProperty("mountpoint", this.appName));
             this.pathPattern = getPathPattern(this.mountpoint);
-            this.staticDir = conf.getProperty("static"); //$NON-NLS-1$
-            this.staticMountpoint = getPathPattern(conf.getProperty("staticMountpoint", //$NON-NLS-1$
-                                        joinMountpoint(this.mountpoint, "static"))); //$NON-NLS-1$
-            this.staticIndex = "true".equalsIgnoreCase(conf.getProperty("staticIndex"));  //$NON-NLS-1$//$NON-NLS-2$
-            String home = conf.getProperty("staticHome"); //$NON-NLS-1$
+            this.staticDir = conf.getProperty("static");
+            this.staticMountpoint = getPathPattern(conf.getProperty("staticMountpoint",
+                                        joinMountpoint(this.mountpoint, "static")));
+            this.staticIndex = "true".equalsIgnoreCase(conf.getProperty("staticIndex"));
+            String home = conf.getProperty("staticHome");
             if (home == null) {
-                this.staticHome = new String[] {"index.html", "index.htm"}; //$NON-NLS-1$ //$NON-NLS-2$
+                this.staticHome = new String[] {"index.html", "index.htm"};
             } else {
-                this.staticHome = StringUtils.split(home, ","); //$NON-NLS-1$
+                this.staticHome = StringUtils.split(home, ",");
             }
-            this.protectedStaticDir = conf.getProperty("protectedStatic"); //$NON-NLS-1$
+            this.protectedStaticDir = conf.getProperty("protectedStatic");
 
-            this.cookieDomain = conf.getProperty("cookieDomain"); //$NON-NLS-1$
-            this.sessionCookieName = conf.getProperty("sessionCookieName"); //$NON-NLS-1$
-            this.protectedSessionCookie = conf.getProperty("protectedSessionCookie"); //$NON-NLS-1$
-            this.uploadLimit = conf.getProperty("uploadLimit"); //$NON-NLS-1$
-            this.uploadSoftfail = conf.getProperty("uploadSoftfail"); //$NON-NLS-1$
-            this.debug = conf.getProperty("debug"); //$NON-NLS-1$
-            String appDirName = conf.getProperty("appdir"); //$NON-NLS-1$
+            this.cookieDomain = conf.getProperty("cookieDomain");
+            this.sessionCookieName = conf.getProperty("sessionCookieName");
+            this.protectedSessionCookie = conf.getProperty("protectedSessionCookie");
+            this.uploadLimit = conf.getProperty("uploadLimit");
+            this.uploadSoftfail = conf.getProperty("uploadSoftfail");
+            this.debug = conf.getProperty("debug");
+            String appDirName = conf.getProperty("appdir");
             this.appDir = (appDirName == null) ? null : getAbsoluteFile(appDirName);
-            String dbDirName = conf.getProperty("dbdir"); //$NON-NLS-1$
+            String dbDirName = conf.getProperty("dbdir");
             this.dbDir = (dbDirName == null) ? null : getAbsoluteFile(dbDirName);
-            this.servletClassName = conf.getProperty("servletClass"); //$NON-NLS-1$
+            this.servletClassName = conf.getProperty("servletClass");
 
             // got ignore dirs
-            this.ignoreDirs = conf.getProperty("ignore"); //$NON-NLS-1$
+            this.ignoreDirs = conf.getProperty("ignore");
 
             // read and configure app repositories
             ArrayList<Repository> repositoryList = new ArrayList<>();
             Class<?>[] parameters = { String.class };
             for (int i = 0; true; i++) {
-                String repositoryArgs = conf.getProperty("repository." + i); //$NON-NLS-1$
+                String repositoryArgs = conf.getProperty("repository." + i);
 
                 if (repositoryArgs != null) {
                     // lookup repository implementation
-                    String repositoryImpl = conf.getProperty("repository." + i + //$NON-NLS-1$
-                                                              ".implementation"); //$NON-NLS-1$
+                    String repositoryImpl = conf.getProperty("repository." + i +
+                                                              ".implementation");
                     if (repositoryImpl == null) {
                         // implementation not set manually, have to guess it
-                        if (repositoryArgs.endsWith(".zip")) { //$NON-NLS-1$
+                        if (repositoryArgs.endsWith(".zip")) {
                             repositoryArgs = findResource(repositoryArgs);
-                            repositoryImpl = "helma.framework.repository.ZipRepository"; //$NON-NLS-1$
-                        } else if (repositoryArgs.endsWith(".js")) { //$NON-NLS-1$
+                            repositoryImpl = "helma.framework.repository.ZipRepository";
+                        } else if (repositoryArgs.endsWith(".js")) {
                             repositoryArgs = findResource(repositoryArgs);
-                            repositoryImpl = "helma.framework.repository.SingleFileRepository"; //$NON-NLS-1$
+                            repositoryImpl = "helma.framework.repository.SingleFileRepository";
                         } else {
                             repositoryArgs = findResource(repositoryArgs);
-                            repositoryImpl = "helma.framework.repository.FileRepository"; //$NON-NLS-1$
+                            repositoryImpl = "helma.framework.repository.FileRepository";
                         }
                     }
 
@@ -506,27 +506,27 @@ public class ApplicationManager implements XmlRpcHandler {
                     appContext.addServlet(holder, "/*");
 
                     if (this.cookieDomain != null) {
-                        holder.setInitParameter("cookieDomain", this.cookieDomain); //$NON-NLS-1$
+                        holder.setInitParameter("cookieDomain", this.cookieDomain);
                     }
 
                     if (this.sessionCookieName != null) {
-                        holder.setInitParameter("sessionCookieName", this.sessionCookieName); //$NON-NLS-1$
+                        holder.setInitParameter("sessionCookieName", this.sessionCookieName);
                     }
 
                     if (this.protectedSessionCookie != null) {
-                        holder.setInitParameter("protectedSessionCookie", this.protectedSessionCookie); //$NON-NLS-1$
+                        holder.setInitParameter("protectedSessionCookie", this.protectedSessionCookie);
                     }
 
                     if (this.uploadLimit != null) {
-                        holder.setInitParameter("uploadLimit", this.uploadLimit); //$NON-NLS-1$
+                        holder.setInitParameter("uploadLimit", this.uploadLimit);
                     }
 
                     if (this.uploadSoftfail != null) {
-                        holder.setInitParameter("uploadSoftfail", this.uploadSoftfail); //$NON-NLS-1$
+                        holder.setInitParameter("uploadSoftfail", this.uploadSoftfail);
                     }
 
                     if (this.debug != null) {
-                        holder.setInitParameter("debug", this.debug); //$NON-NLS-1$
+                        holder.setInitParameter("debug", this.debug);
                     }
 
                     if (protectedStaticDir != null) {
@@ -584,7 +584,7 @@ public class ApplicationManager implements XmlRpcHandler {
 
         @Override
         public String toString() {
-            return "[AppDescriptor "+this.app+"]"; //$NON-NLS-1$ //$NON-NLS-2$
+            return "[AppDescriptor "+this.app+"]";
         }
     }
 }

@@ -73,7 +73,7 @@ public class NodeModulesProvider extends UrlModuleSourceProvider {
         // check if the file exists and is a file
         if (file.exists() && file.isFile()) {
             // check if the file is a JSON file
-            if (file.getAbsolutePath().toLowerCase().endsWith(".json")) { //$NON-NLS-1$
+            if (file.getAbsolutePath().toLowerCase().endsWith(".json")) {
                 // return a JSON module source
                 return new JSONModuleSource(null, file.toURI(), base, validator);
             } else {
@@ -83,7 +83,7 @@ public class NodeModulesProvider extends UrlModuleSourceProvider {
         }
 
         // lets assume the module is a JS file
-        file = new File(new File(uri).getPath() + ".js"); //$NON-NLS-1$
+        file = new File(new File(uri).getPath() + ".js");
         // check if a file.js exists and is a file
         if (file.exists() && file.isFile()) {
             // do what would have been done anyways
@@ -91,7 +91,7 @@ public class NodeModulesProvider extends UrlModuleSourceProvider {
         }
 
         // lets assume the module is a JSON file
-        file = new File(new File(uri).getPath() + ".json"); //$NON-NLS-1$
+        file = new File(new File(uri).getPath() + ".json");
         // check if a file.json exists and is a file
         if (file.exists() && file.isFile()) {
             // return a JSON module source
@@ -135,7 +135,7 @@ public class NodeModulesProvider extends UrlModuleSourceProvider {
             ModuleSource moduleSource;
 
             // lets assume that there is a "package.json" file in the directory
-            File packageFile = new File(directory, "package.json"); //$NON-NLS-1$
+            File packageFile = new File(directory, "package.json");
 
             // check if the there is a "package.json" file in the directory
             if (packageFile.exists() && packageFile.isFile()) {
@@ -143,9 +143,9 @@ public class NodeModulesProvider extends UrlModuleSourceProvider {
                 JsonObject json = JsonParser
                         .parseString(new String(Files.readAllBytes(packageFile.toPath()))).getAsJsonObject();
                 // check if the JSON file defines a main JS file
-                if (json.has("main")) { //$NON-NLS-1$
+                if (json.has("main")) {
                     // get the main JS file, removing the filename extension
-                    String main = FilenameUtils.removeExtension(json.get("main").getAsString()); //$NON-NLS-1$
+                    String main = FilenameUtils.removeExtension(json.get("main").getAsString());
 
                     // load as file
                     moduleSource = this.loadAsFile(new File(directory, main).toURI(), base, validator);
@@ -158,7 +158,7 @@ public class NodeModulesProvider extends UrlModuleSourceProvider {
             }
 
             // load as index
-            moduleSource = this.loadAsFile(new File(directory, "index").toURI(), base, validator); //$NON-NLS-1$
+            moduleSource = this.loadAsFile(new File(directory, "index").toURI(), base, validator);
             // check if something was loaded
             if (moduleSource != null) {
                 // return the loaded module source

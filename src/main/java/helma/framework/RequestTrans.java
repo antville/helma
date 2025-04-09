@@ -603,11 +603,11 @@ public class RequestTrans implements Serializable {
 
         StringTokenizer tok;
 
-        if (auth.startsWith("Basic ")) { //$NON-NLS-1$
+        if (auth.startsWith("Basic ")) {
             tok = new StringTokenizer(new String(Base64.decodeBase64(auth.substring(6))),
-                                      ":"); //$NON-NLS-1$
+                                      ":");
         } else {
-            tok = new StringTokenizer(new String(Base64.decodeBase64(auth)), ":"); //$NON-NLS-1$
+            tok = new StringTokenizer(new String(Base64.decodeBase64(auth)), ":");
         }
 
         try {
