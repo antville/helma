@@ -67,7 +67,7 @@ import org.mozilla.javascript.*;
  * @author A. Sundararajan
  * @since 1.6
  */
-public final class JSAdapter implements Scriptable, Function {
+public final class JSAdapter implements Function {
     private JSAdapter(Scriptable obj) {
         setAdaptee(obj);
     }

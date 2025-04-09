@@ -25,7 +25,7 @@ import java.io.Serializable;
 
 /**
  * Serialization proxy/placeholder interface. This is used for
- * for various Helma and Rhino related classes.. 
+ * for various Helma and Rhino related classes..
  */
 public interface SerializationProxy extends Serializable {
     public Object getObject(RhinoEngine engine);
@@ -49,19 +49,21 @@ class ScriptBeanProxy implements SerializationProxy {
      * @return the object represented by this proxy
      */
     public Object getObject(RhinoEngine engine) {
+        Object object = null;
+
         try {
-            Object object = engine.global.get(name, engine.global);
+            object = engine.global.get(name, engine.global);
         } catch (Exception e) {
             System.out.println(name);
         }
-        
-        return engine.global.get(name, engine.global);
+
+        return object;
     }
 }
 
 /**
  * Serialization proxy for the application object.
- * 
+ *
  * @author Daniel Ruthardt
  * @since 20170918
  */

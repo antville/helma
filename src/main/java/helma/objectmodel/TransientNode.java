@@ -18,7 +18,6 @@ package helma.objectmodel;
 
 import helma.framework.IPathElement;
 import helma.framework.core.Application;
-import helma.framework.core.RequestEvaluator;
 import helma.objectmodel.db.DbMapping;
 import helma.objectmodel.db.Relation;
 import helma.objectmodel.db.Node;
@@ -64,7 +63,8 @@ public class TransientNode implements INode, Serializable {
         created = lastmodified = System.currentTimeMillis();
         this.app=app;
     }
-    
+
+    @SuppressWarnings("unused")
     private TransientNode() {
         app=null;
     }
@@ -75,7 +75,7 @@ public class TransientNode implements INode, Serializable {
     public TransientNode(Application app, String n) {
         id = generateID();
         name = (n == null || n.length() == 0) ? id : n;
-        // HACK - decrease creation and last-modified timestamp by 1 so we notice 
+        // HACK - decrease creation and last-modified timestamp by 1 so we notice
         // modifications that take place immediately after object creation
         created = lastmodified = System.currentTimeMillis() - 1;
         this.app = app;
@@ -378,7 +378,7 @@ public class TransientNode implements INode, Serializable {
     }
 
     private TransientProperty getProperty(String propname) {
-        TransientProperty prop = (propMap == null) ? null 
+        TransientProperty prop = (propMap == null) ? null
                 : (TransientProperty) propMap.get(correctPropertyName(propname));
 
         // check if we have to create a virtual node
@@ -601,7 +601,7 @@ public class TransientNode implements INode, Serializable {
     public synchronized void clearCacheNode() {
         cacheNode = null;
     }
-    
+
     private String correctPropertyName(String propname) {
         return app.correctPropertyName(propname);
     }

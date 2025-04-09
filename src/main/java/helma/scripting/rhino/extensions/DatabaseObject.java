@@ -25,6 +25,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.*;
 
@@ -62,9 +63,13 @@ public class DatabaseObject {
      * Create a new database object based on a driver name, with driver on the classpath
      *
      * @param driverName The class name of the JDBC driver
+     * @throws SecurityException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalArgumentException
      */
 
-    DatabaseObject(String driverName) {
+    DatabaseObject(String driverName) throws IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         this.driverName = driverName;
         try {
             Class driverClass = Class.forName(driverName);
@@ -73,7 +78,7 @@ public class DatabaseObject {
                 // System.err.println("##Bad class " + driverClass);
                 lastError = new RuntimeException("Class " + driverClass + " is not a JDBC driver");
             }
-            driverClass.newInstance(); // may be needed by some drivers, harmless for others
+            driverClass.getDeclaredConstructor().newInstance(); // may be needed by some drivers, harmless for others
         } catch (ClassNotFoundException e) {
             // System.err.println("##Cannot find driver class: " + e);
             // e.printStackTrace();
@@ -447,51 +452,6 @@ public class DatabaseObject {
            }
            return null;
         }
-
-        /* FIXME: dunno if this method is still used somewhere
-        public Object getProperty(String propertyName, int hash) {
-            //System.err.println(" &&& Getting property '" + propertyName + "'");
-
-            // Length property is firsy checked
-
-            // First return system or or prototype properties
-            if (propertyName.equals("length")) {
-                 return Integer.valueOf(colNames.size());
-            } else {
-               if (resultSet == null) {
-                    lastError = new SQLException("Attempt to access a released result set");
-                    return null;
-               }
-                if (!firstRowSeen) {
-                    lastError = new SQLException("Attempt to access data before the first row is read");
-                    return null;
-                }
-               try {
-                    int index = -1; // indicates not a valid index value
-                    try {
-                        char c = propertyName.charAt(0);
-                        if ('0' <= c && c <= '9') {
-                           index = Integer.parseInt(propertyName);
-                        }
-                    } catch (NumberFormatException e) {
-                    } catch (StringIndexOutOfBoundsException e) { // for charAt
-                    }
-                    if (index>=0) {
-                        return getProperty(index);
-                    }
-                   Object value = resultSet.getObject(propertyName);
-                   // IServer.getLogger().log("&& @VALUE : " + value);
-                   lastError = null;
-                   return value;
-               } catch (SQLException e) {
-                  // System.err.println("##Cannot get property '" + propertyName + "' " + e);
-                  // e.printStackTrace();
-                  lastError = e;
-               }
-            }
-            return null;
-        }
-        */
 
         public Object getProperty(int index) {
             if (!firstRowSeen) {

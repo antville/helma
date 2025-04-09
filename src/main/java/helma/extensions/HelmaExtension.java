@@ -59,7 +59,7 @@ public abstract class HelmaExtension {
      * with pairs of varname and ESObjects. This method should be <b>synchronized</b>, if it
      * performs any other self-initialization outside the scripting environment.
      */
-    public abstract HashMap initScripting(Application app, ScriptingEngine engine)
+    public abstract HashMap<String, Object> initScripting(Application app, ScriptingEngine engine)
                                    throws ConfigurationException;
 
     /**

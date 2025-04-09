@@ -21,6 +21,7 @@ import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
 import java.net.URL;
@@ -47,7 +48,7 @@ public class JettyServer {
         http = new org.eclipse.jetty.server.Server();
 
         try {
-            XmlConfiguration config = new XmlConfiguration(url);
+            XmlConfiguration config = new XmlConfiguration(Resource.newResource(url));
             config.configure(http);
 
         } catch (IOException e) {
@@ -59,7 +60,7 @@ public class JettyServer {
 
     private JettyServer(InetSocketAddress webPort, Server server)
             throws IOException {
-    	
+
         http = new org.eclipse.jetty.server.Server();
 
         // start embedded web server if port is specified
@@ -73,7 +74,7 @@ public class JettyServer {
             connector.setHost(webPort.getAddress().getHostAddress());
             connector.setPort(webPort.getPort());
             connector.setIdleTimeout(30000);
-            connector.setSoLingerTime(-1);
+            // Removed deprecated method setSoLingerTime
             connector.setAcceptorPriorityDelta(0);
             connector.setAcceptQueueSize(0);
 

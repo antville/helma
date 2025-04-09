@@ -44,7 +44,6 @@ import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.WrapFactory;
 import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.commonjs.module.RequireBuilder;
-import org.mozilla.javascript.commonjs.module.provider.StrongCachingModuleScriptProvider;
 import org.mozilla.javascript.tools.debugger.ScopeProvider;
 
 import java.io.*;
@@ -1233,7 +1232,7 @@ public final class RhinoCore implements ScopeProvider {
 
         protected void onContextCreated(Context cx) {
             cx.setWrapFactory(wrapper);
-            cx.setOptimizationLevel(optLevel);
+            cx.setInterpretedMode(optLevel < 0);
             cx.setInstructionObserverThreshold(10000);
             if (Context.isValidLanguageVersion(languageVersion)) {
                 cx.setLanguageVersion(languageVersion);

@@ -39,7 +39,7 @@ public class HopObjectCtor extends FunctionObject {
 
     static Method hopObjCtor;
 
-    static long collectionId = 0;    
+    static long collectionId = 0;
 
     static {
         try {
@@ -51,7 +51,7 @@ public class HopObjectCtor extends FunctionObject {
     }
 
     static final int attr = DONTENUM | PERMANENT;
-    
+
     /**
      * Create and install a HopObject constructor.
      * Part of this is copied from o.m.j.FunctionObject.addAsConstructor().
@@ -149,7 +149,7 @@ public class HopObjectCtor extends FunctionObject {
         private static final long serialVersionUID = -8041352998956882647L;
 
         public GetById(Scriptable scope) {
-            ScriptRuntime.setFunctionProtoAndParent(this, scope);
+            ScriptRuntime.setFunctionProtoAndParent(this, Context.getCurrentContext(), scope);
         }
 
         /**
@@ -187,7 +187,7 @@ public class HopObjectCtor extends FunctionObject {
         }
 
         public int getArity() {
-            return 1; 
+            return 1;
         }
 
         public int getLength() {
@@ -201,7 +201,7 @@ public class HopObjectCtor extends FunctionObject {
         private static final long serialVersionUID = -4046933261468527204L;
 
         public HopCollection(Scriptable scope) {
-            ScriptRuntime.setFunctionProtoAndParent(this, scope);
+            ScriptRuntime.setFunctionProtoAndParent(this, Context.getCurrentContext(), scope);
         }
 
         public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {

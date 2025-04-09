@@ -16,9 +16,6 @@
 
 package helma.main;
 
-import helma.util.*;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * ShutdownHook that shuts down all running Helma applications on exit.
  */

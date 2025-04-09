@@ -22,7 +22,7 @@ public class JSONModuleSource extends ModuleSource {
         content.append("module.exports = "); //$NON-NLS-1$
         
         try {
-            content.append(IOUtils.toString(this.getUri().toURL().openStream()));
+            content.append(IOUtils.toString(this.getUri().toURL().openStream(), "UTF-8"));
         } catch (IOException e) {
             content.append("null"); //$NON-NLS-1$
         }

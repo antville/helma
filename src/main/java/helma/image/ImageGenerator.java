@@ -27,7 +27,7 @@ import java.net.URL;
 
 /**
  * Factory class for generating Image objects from various sources.
- *  
+ *
  */
 public abstract class ImageGenerator {
     protected static ImageGenerator generator = null;
@@ -72,7 +72,7 @@ public abstract class ImageGenerator {
                     "The imageGenerator class cannot be found: " + className);
             }
             try {
-                generator = (ImageGenerator)generatorClass.newInstance();
+                generator = (ImageGenerator) generatorClass.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new RuntimeException(
                     "The ImageGenerator instance could not be created: "
@@ -85,7 +85,7 @@ public abstract class ImageGenerator {
     /**
      * @param w ...
      * @param h ...
-     * 
+     *
      * @return ...
      */
     public ImageWrapper createImage(int w, int h) {
@@ -95,7 +95,7 @@ public abstract class ImageGenerator {
 
     /**
      * @param src ...
-     * 
+     *
      * @return ...
      * @throws IOException
      */
@@ -103,10 +103,10 @@ public abstract class ImageGenerator {
         Image img = read(src);
         return img != null ? new ImageWrapper(img, this) : null;
     }
-    
+
     /**
      * @param filenamne ...
-     * 
+     *
      * @return ...
      * @throws IOException
      */
@@ -118,7 +118,7 @@ public abstract class ImageGenerator {
 
     /**
      * @param url ...
-     * 
+     *
      * @return ...
      * @throws MalformedURLException
      * @throws IOException
@@ -144,14 +144,14 @@ public abstract class ImageGenerator {
     /**
      * @param iw ...
      * @param filter ...
-     * 
+     *
      * @return ...
      */
     public ImageWrapper createImage(ImageWrapper iw, ImageFilter filter) {
         // use the ImagFilterOp wrapper for ImageFilters that works directly
         // on BufferedImages. The filtering is much faster like that.
         // Attention: needs testing with all the filters!
-        
+
         return createImage(iw, new ImageFilterOp(filter));
 //        Image img = ImageWaiter.waitForImage(
 //            Toolkit.getDefaultToolkit().createImage(
@@ -162,7 +162,7 @@ public abstract class ImageGenerator {
     /**
      * @param iw ...
      * @param imageOp ...
-     * 
+     *
      * @return ...
      */
     public ImageWrapper createImage(ImageWrapper iw, BufferedImageOp imageOp) {
@@ -212,7 +212,7 @@ public abstract class ImageGenerator {
 
     /**
      * Saves the image. Image format is deduced from filename.
-     * 
+     *
      * @param wrapper
      * @param filename
      * @param quality
@@ -224,7 +224,7 @@ public abstract class ImageGenerator {
 
     /**
      * Saves the image. Image format is deduced from the dataSource.
-     * 
+     *
      * @param wrapper
      * @param out
      * @param quality

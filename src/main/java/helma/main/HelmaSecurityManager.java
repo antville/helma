@@ -30,11 +30,13 @@ import java.util.HashSet;
  *  a utility method <code>getApplication</code> that can be used to determine
  *  the name of the application trying to execute the action in question, if any.
  */
+@Deprecated
+@SuppressWarnings("removal")
 public class HelmaSecurityManager extends SecurityManager {
     // The set of actions forbidden to application code.
-    // We are pretty permissive, forbidding only System.exit() 
+    // We are pretty permissive, forbidding only System.exit()
     // and setting the security manager.
-    private final static HashSet forbidden = new HashSet();
+    private final static HashSet<String> forbidden = new HashSet<>();
 
     static {
         forbidden.add("exitVM");
@@ -49,7 +51,7 @@ public class HelmaSecurityManager extends SecurityManager {
     public void checkPermission(Permission p) {
         if (p instanceof RuntimePermission) {
             if (forbidden.contains(p.getName())) {
-                Class[] classes = getClassContext();
+                Class<?>[] classes = getClassContext();
 
                 for (int i = 0; i < classes.length; i++) {
                     if (classes[i].getClassLoader() instanceof AppClassLoader) {
@@ -98,7 +100,7 @@ public class HelmaSecurityManager extends SecurityManager {
      * @param status ...
      */
     public void checkExit(int status) {
-        Class[] classes = getClassContext();
+        Class<?>[] classes = getClassContext();
 
         for (int i = 0; i < classes.length; i++) {
             if (classes[i].getClassLoader() instanceof AppClassLoader) {
@@ -287,7 +289,7 @@ public class HelmaSecurityManager extends SecurityManager {
      * @param clazz ...
      * @param which ...
      */
-    public void checkMemberAccess(Class clazz, int which) {
+    public void checkMemberAccess(Class<?> clazz, int which) {
     }
 
     /**
@@ -304,7 +306,7 @@ public class HelmaSecurityManager extends SecurityManager {
      *  does not belong to any application.
      */
     protected String getApplication() {
-        Class[] classes = getClassContext();
+        Class<?>[] classes = getClassContext();
 
         for (int i = 0; i < classes.length; i++) {
             if (classes[i].getClassLoader() instanceof AppClassLoader) {

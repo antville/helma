@@ -463,8 +463,6 @@ public class Transactor {
             node.clearWriteLock();
         }
 
-        long now = System.currentTimeMillis();
-
         // set last subnode change times in parent nodes
         for (Iterator i = parentNodes.iterator(); i.hasNext(); ) {
             Node node = (Node) i.next();

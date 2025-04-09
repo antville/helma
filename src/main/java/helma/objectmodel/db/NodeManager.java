@@ -22,6 +22,7 @@ import helma.objectmodel.*;
 import helma.objectmodel.dom.XmlDatabase;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
@@ -59,19 +60,25 @@ public final class NodeManager {
      * Initialize the NodeManager for the given dbHome and
      * application properties. An embedded database will be
      * created in dbHome if one doesn't already exist.
+     * @throws SecurityException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalArgumentException
      */
     public void init(File dbHome, Properties props)
             throws DatabaseException, ClassNotFoundException,
-                   IllegalAccessException, InstantiationException {
+                   IllegalAccessException, InstantiationException,
+                   IllegalArgumentException, InvocationTargetException,
+                   NoSuchMethodException, SecurityException {
         String cacheImpl = props.getProperty("cacheimpl", "helma.util.CacheMap");
 
-        cache = (ObjectCache) Class.forName(cacheImpl).newInstance();
+        cache = (ObjectCache) Class.forName(cacheImpl).getDeclaredConstructor().newInstance();
         cache.init(app);
 
         String idgenImpl = props.getProperty("idGeneratorImpl");
 
         if (idgenImpl != null) {
-            idgen = (IDGenerator) Class.forName(idgenImpl).newInstance();
+            idgen = (IDGenerator) Class.forName(idgenImpl).getDeclaredConstructor().newInstance();
             idgen.init(app);
         }
 

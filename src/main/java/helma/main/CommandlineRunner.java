@@ -41,10 +41,10 @@ public class CommandlineRunner {
 
         ServerConfig config = new ServerConfig();
         String commandStr = null;
-        Vector funcArgs = new Vector();
-    
+        Vector<String> funcArgs = new Vector<>();
+
         // get possible environment setting for helma home
-        if (System.getProperty("helma.home")!=null) {
+        if (System.getProperty("helma.home") != null) {
             config.setHomeDir(new File(System.getProperty("helma.home")));
         }
 
@@ -110,7 +110,7 @@ public class CommandlineRunner {
         server.shutdown();
     }
 
-    
+
 
     /**
       * print the usage hints and prefix them with a message.

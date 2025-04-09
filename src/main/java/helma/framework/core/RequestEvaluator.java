@@ -100,7 +100,7 @@ public final class RequestEvaluator implements Runnable {
                 app.setCurrentRequestEvaluator(this);
                 Class clazz = app.getClassLoader().loadClass(engineClassName);
 
-                scriptingEngine = (ScriptingEngine) clazz.newInstance();
+                scriptingEngine = (ScriptingEngine) clazz.getDeclaredConstructor().newInstance();
                 scriptingEngine.init(app, this);
             } catch (Exception x) {
                 Throwable t = x;
@@ -566,7 +566,7 @@ public final class RequestEvaluator implements Runnable {
                                 int base = 800 * tries;
                                 Thread.sleep((long) (base + (Math.random() * base * 2)));
                             } catch (InterruptedException interrupt) {
-                                // we got interrrupted, create minimal error message 
+                                // we got interrrupted, create minimal error message
                                 res.reportError(interrupt);
                                 done = true;
                                 // and release resources and thread

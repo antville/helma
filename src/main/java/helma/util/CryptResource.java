@@ -24,7 +24,6 @@ import java.util.StringTokenizer;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import helma.framework.repository.Resource;
-import helma.framework.repository.Resource;
 
 /**
  *  This file authenticates against a passwd source

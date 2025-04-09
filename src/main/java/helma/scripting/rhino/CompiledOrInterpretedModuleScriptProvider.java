@@ -48,11 +48,11 @@ public class CompiledOrInterpretedModuleScriptProvider extends StrongCachingModu
             // unlikely, but possible exception during loading the module script without compilation
             Exception exception;
             // get the application's optimization level
-            int optimizationLevel = cx.getOptimizationLevel();
-            
+            boolean interpretedMode = cx.isInterpretedMode();
+
             try {
                 // set the optimization level to not compile, but interpret
-                cx.setOptimizationLevel(-1);
+                cx.setInterpretedMode(true);
                 // load the module script with the newly set optimization level
                 ModuleScript moduleScript = super.getModuleScript(cx, moduleId, moduleUri, baseUri, paths);
                 // return the module script
@@ -62,10 +62,10 @@ public class CompiledOrInterpretedModuleScriptProvider extends StrongCachingModu
                 exception = e;
             } finally {
                 // re-set the optimization
-                cx.setOptimizationLevel(optimizationLevel);
+                cx.setInterpretedMode(interpretedMode);
             }
-            
-            // re-throw the exception catched when trying to load the module script without compilation 
+
+            // re-throw the exception catched when trying to load the module script without compilation
             throw exception;
         }
     }

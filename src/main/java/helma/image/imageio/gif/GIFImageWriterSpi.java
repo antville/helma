@@ -24,9 +24,10 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 import javax.imageio.spi.*;
+import javax.imageio.stream.ImageOutputStream;
 
 public class GIFImageWriterSpi extends ImageWriterSpi {
-	
+
     public GIFImageWriterSpi() {
         super(
             "Helma Object Publisher, http://helma.org/",
@@ -35,7 +36,7 @@ public class GIFImageWriterSpi extends ImageWriterSpi {
             new String[] {"gif", "GIF"},
             new String[] {"image/gif", "image/x-gif"},
             "helma.image.imageio.gif.GIFImageWriter",
-            STANDARD_OUTPUT_TYPE,
+            new Class<?>[] {ImageOutputStream.class},
             null,
             false, null, null, null, null,
             false, null, null, null, null
