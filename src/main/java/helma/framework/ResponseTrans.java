@@ -714,7 +714,7 @@ public final class ResponseTrans extends Writer implements Serializable {
                 // if (contentType != null)
                 //     digest.update (contentType.getBytes());
                 byte[] b = this.digest.digest(this.response);
-                this.etag = "\"" + new String(Base64.encodeBase64(b)) + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+                this.etag = "\"" + new String(Base64.encodeBase64(b)) + "\"";
                 // only set response to 304 not modified if no cookies were set
                 if (reqtrans.hasETag(etag) && countCookies() == 0) {
                     response = new byte[0];
