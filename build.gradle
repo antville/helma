@@ -147,8 +147,10 @@ installDist {
   dependsOn build
 }
 
-tasks.register('processSource', Sync) {
+def processSource = tasks.register('processSource', Sync) {
   def gitOutput = new ByteArrayOutputStream()
+
+  outputs.dir "${project.buildDir}/src"
 
   exec {
     commandLine 'git', 'rev-parse', '--short', 'HEAD'
@@ -164,8 +166,10 @@ tasks.register('processSource', Sync) {
       .replaceAll('__builddate__', new Date().format("d MMM yyyy"))
       .replaceAll('__commithash__', gitOutput.toString().trim())
       .replaceAll('__version__', version)
-  } into "${project.buildDir}/src"
+  } into outputs.files.singleFile
 }
+
+tasks.compileJava.source = processSource.map { it.outputs.files }
 
 tasks.register('update') {
   dependsOn installDist
