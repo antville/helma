@@ -1,15 +1,18 @@
 name: Deploy (Production)
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      hostname:
+        description: Hostname
+        type: string
+        required: true
+        default: antville.org
 
 jobs:
   deploy:
     runs-on: antville
 
-    environment:
-      name: antville.org
-      url: https://antville.org
-
     steps:
       - name: Copy files to production server
-        run: ssh staging-server deploy-helma
+        run: ssh ${{ inputs.hostname }} deploy-helma
