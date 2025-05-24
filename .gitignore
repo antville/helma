@@ -1,5 +1,7 @@
+# Generally ignore hidden files
 .*
 
+# Manage some Codium configuration
 .vscode/*
 !.vscode
 !.vscode/extensions.json
@@ -7,22 +9,22 @@
 !.vscode/settings.json
 !.vscode/tasks.json
 
-build
-
-/apps
+# Ignore files created during build or run
 /bin
 /backups
-/db
+build
 /docs
-/extras
 /lib
 /licenses
 /log
+
+# Ignore files managed in src/dist
+/*.properties
+/apps
+/db
+/extras
+/launcher.jar
 /static
 
-/*.properties
+# Manage Gradle configuration
 !/gradle.properties
-
-/launcher.jar
-/passwd
-/start.*
