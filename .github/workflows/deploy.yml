@@ -1,6 +1,6 @@
-name: Deploy (Production)
+name: Deploy
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       hostname:
@@ -10,9 +10,30 @@ on:
         default: antville.org
 
 jobs:
-  deploy:
+  stage:
     runs-on: antville
 
+    environment:
+      name: production
+      url: ${{ inputs.hostname }}
+
     steps:
-      - name: Copy files to production server
-        run: ssh ${{ inputs.hostname }} deploy-helma
+      - uses: actions/checkout@v4
+
+      - name: Build with Gradle
+        run: ./gradlew installDist
+
+      - name: Copy build files to server
+        run: |
+          rsync ./build/install/helma/ ${{ inputs.hostname }}:./ \
+            --verbose --archive --delete --compress \
+            --filter '+ /bin' \
+            --filter '+ /extras' \
+            --filter '+ /launcher.jar' \
+            --filter '- /lib/ext' \
+            --filter '+ /lib' \
+            --filter '+ /modules' \
+            --filter '- /*'
+
+      - name: Restart Helma
+        run: ssh ${{ inputs.hostname }} restart
