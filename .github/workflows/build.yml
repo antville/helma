@@ -16,7 +16,7 @@ jobs:
     runs-on: antville
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Compile with Gradle
         run: ./gradlew :compileJava
