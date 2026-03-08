@@ -669,7 +669,7 @@ public final class RhinoCore implements ScopeProvider {
 
             if (op == null) {
                 // no prototype found, return an unscripted wrapper
-                wrapper = new NativeJavaObject(global, e, e.getClass());
+                wrapper = (Wrapper) NativeJavaObject.wrap(global, e, e.getClass());
             } else {
                 wrapper = new JavaObject(global, e, prototypeName, op, this);
             }

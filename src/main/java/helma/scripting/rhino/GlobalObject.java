@@ -427,7 +427,7 @@ public class GlobalObject extends ImporterTopLevel implements PropertyRecorder {
                 "Invalid argument to unwrapMap(): " + obj);
         }
         obj = ((MapWrapper) obj).unwrap();
-        return new NativeJavaObject(core.global, obj, Map.class);
+        return NativeJavaObject.wrap(core.global, obj, Map.class);
     }
 
     /**
