@@ -1,11 +1,14 @@
 dependencies {
 	runtimeOnly 'dom4j:dom4j:1.1.3'
 	runtimeOnly 'jaxen:jaxen:1.1-beta-8'
-	runtimeOnly 'net.sf.javamusictag:jid3lib:0.5.4'
 
-	// FIXME: Did not find these two or appropriate replacements for them
-	//runtime 'id3:de.ueberdosis.mp3info:1.6.0d9'
-	//runtime 'javadns:org.wonderly:?'
+  // Although it’s at Maven, Renovate claims it cannot be found
+  // See <https://repo1.maven.org/maven2/net/sf/javamusictag/jid3lib/0.5.4/jid3lib-0.5.4.pom>
+	runtimeOnly files('jid3lib-0.5.4.jar')
+
+	// Did not find these two or appropriate replacements for them
+	runtimeOnly files('id3-1.6.0d9.jar')
+	runtimeOnly files('javadns.jar')
 }
 
 jar.enabled = false
