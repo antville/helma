@@ -40,7 +40,7 @@ Clone this repository to your machine and run Helma with `./gradlew run`.
 
 To update the installation from a build, run `./gradlew update` and enter `yes` at the prompt.
 
-> ⚠️    
+> [!warning]  
 > Please be aware that this step is going to overwrite files in the installation directory – escpecially at a later time when there might be substantial changes. Should this happen by accident you find the previous installation in the `backups` directory.
 >
 > Alternatively, you could move or copy the desired files manually from the installation directory `build/install/helma`.
@@ -61,8 +61,8 @@ Finally, Helma can be plugged into Servlet containers using Servlet classes that
 
 After installing and running Helma, you will be able to access introductions to the features of Helma and the various included development tools. Further information you will find on the helma.org website:
 
-> 😿  
-> Unfortunately, the Helma website disappeard in the meantime. However, with some archaeological web digging and thanks to the great search engines and archive services out there it is still possible to find useful resources.
+> [!note]
+> Unfortunately, the Helma website disappeard in the meantime 😿 However, with some archaeological web digging and thanks to the great search engines and archive services out there it is still possible to find useful resources.
 
 - [helma.org at Internet Archive](http://web.archive.org/web/20180122132315/http://helma.org)
 - [Documentation](http://web.archive.org/web/20100530234322/http://helma.org/documentation/)
