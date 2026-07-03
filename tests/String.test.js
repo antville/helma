@@ -3,8 +3,14 @@
 //
 // Mocks the minimal Helma globals needed to load the module without a running server.
 var app = { addRepository: function() {} };
+// dontEnum is a Helma runtime extension that marks properties non-enumerable.
+Object.prototype.dontEnum = function() {};
 
-load('modules/core/String.js');
+// Resolve modules path whether run via Gradle (cwd = project root) or directly with java.
+var modulesBase = new java.io.File('modules/core/String.js').exists()
+  ? '.'
+  : '/home/helma';
+load(modulesBase + '/modules/core/String.js');
 
 var passed = 0, failed = 0;
 
