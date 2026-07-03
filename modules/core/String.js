@@ -35,8 +35,8 @@ String.NULL           = String.EMPTY; // to be deprecated?
 // Fix: exclude '.' from label character classes \u2014 each '.' has exactly one role (separator),
 // so the parse tree is linear. Unicode/IDN are fully supported: [^\s@.] passes all non-ASCII.
 
-String.EMAILPATTERN   = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
-String.URLPATTERN     = /^(?:https?|ftp):\/\/(?:[^\s@\/?#]+@)?[^\s.\/\?#:]+(?:\.[^\s.\/\?#:]+)*(?::\d+)?(?:\/[^\s]*)?(?:\?[^\s]*)?(?:#[^\s]*)?$/i;
+String.EMAILPATTERN   = /^[^\s@]+@[^\s@.!]+(?:\.[^\s@.!]+)+$/;
+String.URLPATTERN     = /^(?:https?|ftp):\/\/(?:[^\s@\/?#]+@)?[^\s.\/\?#:!]+(?:\.[^\s.\/\?#:!]+)*(?::\d+)?(?:\/[^\s]*)?(?:\?[^\s]*)?(?:#[^\s]*)?$/i;
 
 /**
  * @fileoverview Adds useful methods to the JavaScript String type.
