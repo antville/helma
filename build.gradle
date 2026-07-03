@@ -274,6 +274,17 @@ tasks.register('rhinoShell', JavaExec) {
   standardInput = System.in
 }
 
+tasks.register('testJs', JavaExec) {
+  description 'Runs the JavaScript module test suite in Rhino.'
+  group 'Verification'
+
+  classpath = files(rhinoJar)
+  mainClass = 'org.mozilla.javascript.tools.shell.Main'
+  args = ['tests/String.test.js']
+}
+
+tasks.check.dependsOn 'testJs'
+
 // Call this task with a function definition using the `-P` parameter, e.g.
 // `./gradlew commandLine -Pfunction=manage.getAllApplications`
 tasks.register('commandLine', JavaExec) {
