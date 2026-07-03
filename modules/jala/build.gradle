@@ -1,6 +1,6 @@
 dependencies {
 	runtimeOnly 'dom4j:dom4j:1.1.3'
-	runtimeOnly 'jaxen:jaxen:1.1-beta-8'
+	runtimeOnly 'jaxen:jaxen:2.0.6'
 
   // Although it’s at Maven, Renovate claims it cannot be found
   // See <https://repo1.maven.org/maven2/net/sf/javamusictag/jid3lib/0.5.4/jid3lib-0.5.4.pom>
