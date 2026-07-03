@@ -34,9 +34,11 @@ String.NULL           = String.EMPTY; // to be deprecated?
 // hostname like "a.b.c.d.invalid!" caused 2^n backtracking paths and locked threads forever.
 // Fix: exclude '.' from label character classes \u2014 each '.' has exactly one role (separator),
 // so the parse tree is linear. Unicode/IDN are fully supported: [^\s@.] passes all non-ASCII.
+// Additional exclusions: \x00 (null byte, not in \s but harmful in DB/SMTP), <> (invalid in
+// bare email local parts per RFC 5321), \\ (invalid in URL hostnames, enables host confusion).
 
-String.EMAILPATTERN   = /^[^\s@]+@[^\s@.!]+(?:\.[^\s@.!]+)+$/;
-String.URLPATTERN     = /^(?:https?|ftp):\/\/(?:[^\s@\/?#]+@)?[^\s.\/\?#:!]+(?:\.[^\s.\/\?#:!]+)*(?::\d+)?(?:\/[^\s]*)?(?:\?[^\s]*)?(?:#[^\s]*)?$/i;
+String.EMAILPATTERN   = /^[^\s@\x00<>]+@[^\s@.!\x00]+(?:\.[^\s@.!\x00]+)+$/;
+String.URLPATTERN     = /^(?:https?|ftp):\/\/(?:[^\s@\/?#\\\x00]+@)?[^\s.\/\?#:!\\\x00]+(?:\.[^\s.\/\?#:!\\\x00]+)*(?::\d+)?(?:\/[^\s\x00]*)?(?:\?[^\s\x00]*)?(?:#[^\s\x00]*)?$/i;
 
 /**
  * @fileoverview Adds useful methods to the JavaScript String type.
