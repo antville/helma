@@ -14,6 +14,23 @@ case "$SSH_ORIGINAL_COMMAND" in
     printf '%s\n' 'done.'
     ;;
 
+  save\ *)
+    set -- $SSH_ORIGINAL_COMMAND
+    shift
+    branch_name=local-changes
+    git switch "$branch_name" 2>/dev/null || git switch --create "$branch_name"
+    git add --all
+    git commit --message "$*"
+    ;;
+
+  commit\ *)
+    set -- $SSH_ORIGINAL_COMMAND
+    shift
+    git switch main
+    git add --all
+    git commit --message "$*"
+    ;;
+
   *)
     # Allow any rsync command but restrict it to the installation directory
     rrsync -wo /home/helma
