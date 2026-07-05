@@ -28,7 +28,7 @@ jobs:
           echo "message=$message" >> $GITHUB_ENV
 
       - name: Save local changes
-        run: ssh ${{ inputs.hostname }} save "$message"
+        run: ssh ${{ inputs.hostname }} commit 'Save local changes before next deployment'
 
       - name: Build with Gradle
         run: ./gradlew installDist
