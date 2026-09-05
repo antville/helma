@@ -716,6 +716,10 @@ public final class RequestEvaluator implements Runnable {
             wait(1000 * 60 * 10);
         } catch (InterruptedException ix) {
             // we got interrrupted, releases resources and thread
+            Transactor tx = Transactor.getInstance();
+            if (tx != null) {
+                tx.closeConnections();
+            }
             thread = null;
             transactor = null;
         }
@@ -726,6 +730,10 @@ public final class RequestEvaluator implements Runnable {
             // currently we don't do this because of the risk of memory leaks (objects from
             // framework referencing into the scripting engine)
             // scriptingEngine = null;
+            Transactor tx = Transactor.getInstance();
+            if (tx != null) {
+                tx.closeConnections();
+            }
             thread = null;
             transactor = null;
         }
