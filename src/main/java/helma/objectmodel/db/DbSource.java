@@ -80,6 +80,15 @@ public class DbSource {
                 (defaultProps != null && defaultProps.lastModified() > lastRead);
 
         if (con == null || con.isClosed() || fileUpdated) {
+            if (con != null && !con.isClosed()) {
+                // fileUpdated is the only way to reach this branch with a still-open
+                // connection - close it before replacing it so we don't leak it.
+                try {
+                    con.close();
+                } catch (SQLException ignore) {
+                    // going away anyway
+                }
+            }
             init();
             con = DriverManager.getConnection(url, conProps);
 
