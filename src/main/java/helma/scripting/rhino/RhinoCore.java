@@ -43,6 +43,7 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.WrapFactory;
 import org.mozilla.javascript.Wrapper;
+import org.mozilla.javascript.lc.type.TypeInfoFactory;
 import org.mozilla.javascript.commonjs.module.RequireBuilder;
 import org.mozilla.javascript.commonjs.module.provider.StrongCachingModuleScriptProvider;
 import org.mozilla.javascript.tools.debugger.ScopeProvider;
@@ -669,7 +670,7 @@ public final class RhinoCore implements ScopeProvider {
 
             if (op == null) {
                 // no prototype found, return an unscripted wrapper
-                wrapper = new NativeJavaObject(global, e, e.getClass());
+                wrapper = new NativeJavaObject(global, e, TypeInfoFactory.GLOBAL.create(e.getClass()));
             } else {
                 wrapper = new JavaObject(global, e, prototypeName, op, this);
             }
@@ -1124,7 +1125,10 @@ public final class RhinoCore implements ScopeProvider {
      */
     class WrapMaker extends WrapFactory {
 
-        public Object wrap(Context cx, Scriptable scope, Object obj, Class staticType) {
+        // Rhino 1.9 calls the TypeInfo overload directly; the Class overload merely delegates to it.
+        // (Fully qualified because of the inner TypeInfo class of RhinoCore.)
+        public Object wrap(Context cx, Scriptable scope, Object obj,
+                org.mozilla.javascript.lc.type.TypeInfo staticType) {
             // taking a shortcut here on things normally defined by setJavaPrimitivesWrap()
             if (obj == null || obj == Undefined.instance
                     || obj instanceof Scriptable || obj instanceof String

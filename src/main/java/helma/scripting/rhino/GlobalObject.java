@@ -23,6 +23,7 @@ import helma.util.HtmlEncoder;
 import helma.util.MimePart;
 import helma.util.XmlUtils;
 import org.mozilla.javascript.*;
+import org.mozilla.javascript.lc.type.TypeInfoFactory;
 import org.mozilla.javascript.serialize.*;
 import org.xml.sax.SAXException;
 
@@ -427,7 +428,7 @@ public class GlobalObject extends ImporterTopLevel implements PropertyRecorder {
                 "Invalid argument to unwrapMap(): " + obj);
         }
         obj = ((MapWrapper) obj).unwrap();
-        return new NativeJavaObject(core.global, obj, Map.class);
+        return new NativeJavaObject(core.global, obj, TypeInfoFactory.GLOBAL.create(Map.class));
     }
 
     /**

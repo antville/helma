@@ -20,6 +20,7 @@ import helma.framework.core.*;
 import helma.framework.ResponseTrans;
 import helma.framework.repository.Resource;
 import org.mozilla.javascript.*;
+import org.mozilla.javascript.lc.type.TypeInfoFactory;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class JavaObject extends NativeJavaObject {
         this.javaObject = obj;
         this.protoName = protoName;
         this.core = core;
-        staticType = obj.getClass();
+        staticType = TypeInfoFactory.GLOBAL.create(obj.getClass());
         unscriptedJavaObj = new NativeJavaObject(scope, obj, staticType);
         setPrototype(prototype);
         initMembers();
