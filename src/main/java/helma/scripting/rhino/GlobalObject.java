@@ -452,10 +452,11 @@ public class GlobalObject extends ImporterTopLevel implements PropertyRecorder {
             String className = ((Scriptable) obj).getClassName();
             if ("Date".equals(className)) {
                 return new NativeJavaObject(this,
-                        new Date((long) ScriptRuntime.toNumber(obj)), null);
+                        new Date((long) ScriptRuntime.toNumber(obj)),
+                        TypeInfoFactory.GLOBAL.create(Date.class));
             }
         }
-        return new NativeJavaObject(this, obj, null);
+        return new NativeJavaObject(this, obj, TypeInfoFactory.GLOBAL.create(obj.getClass()));
     }
 
     /**

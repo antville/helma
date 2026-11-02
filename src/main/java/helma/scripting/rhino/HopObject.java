@@ -22,6 +22,7 @@ import helma.objectmodel.*;
 import helma.objectmodel.db.*;
 import helma.objectmodel.db.Node;
 import org.mozilla.javascript.*;
+import org.mozilla.javascript.lc.type.TypeInfoFactory;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -949,7 +950,7 @@ public class HopObject extends ScriptableObject implements Wrapper, PropertyReco
         }
 
         if ("__node__".equals(name)) {
-            return new NativeJavaObject(core.global, node, null);
+            return new NativeJavaObject(core.global, node, TypeInfoFactory.GLOBAL.create(node.getClass()));
         }
 
         if ("__created__".equalsIgnoreCase(name)) {
