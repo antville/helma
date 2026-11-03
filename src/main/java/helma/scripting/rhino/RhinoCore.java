@@ -1256,6 +1256,11 @@ public final class RhinoCore implements ScopeProvider {
                 case Context.FEATURE_DYNAMIC_SCOPE:
                     return true;
 
+                // Rhino 1.9 disables Java serialization by default, but Helma relies on it
+                // for the serialize() and deserialize() globals as well as for persisting sessions.
+                case Context.FEATURE_JAVA_SERIALIZATION:
+                    return true;
+
                 case Context.FEATURE_STRICT_VARS:
                 case Context.FEATURE_WARNING_AS_ERROR:
                     return strictVars;
