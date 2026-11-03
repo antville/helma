@@ -724,7 +724,7 @@ public class HopObject extends ScriptableObject implements Wrapper, PropertyReco
         if (proxy == null) {
             // redirect the scripted constructor to __constructor__,
             // constructor is set to the native constructor method.
-            if ("constructor".equals(name) && value instanceof NativeFunction) {
+            if ("constructor".equals(name) && value instanceof JSFunction) {
                 name = "__constructor__";
             }
             // register property for PropertyRecorder interface
